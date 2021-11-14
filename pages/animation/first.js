@@ -1,5 +1,5 @@
-import styled from '../../styles/AnimationFirst.module.css';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import styled from '../../styles/AnimationFirst.module.css';
 
 export default function First() {
   const mainRef = useRef(null);

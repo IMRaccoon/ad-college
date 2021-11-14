@@ -1,5 +1,4 @@
 import styled from '../../styles/Team_3.module.css';
-import Image from 'next/Image';
 
 export default function Page() {
   return (
