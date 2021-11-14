@@ -6,7 +6,7 @@ export default function Main() {
     <main className={styles.container}>
       <div className={styles.bgFirst}></div>
       <div className={styles.bgSecond}>
-        <Image
+        {/* <Image
           width="1920"
           height="1080"
           layout="responsive"
@@ -40,7 +40,7 @@ export default function Main() {
           layout="responsive"
           src="/main/main_second_2.png"
           alt="main second second"
-        ></Image>
+        ></Image> */}
       </div>
       <div className={styles.bgThird}></div>
       {/* <Image
