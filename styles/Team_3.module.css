@@ -1,0 +1,15 @@
+.container {
+  width: 100%;
+  background: url('/team/3/background.png');
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.frame {
+  width: 80vw;
+  height: 120vw;
+  display: flex;
+  margin: auto;
+  border: none;
+}

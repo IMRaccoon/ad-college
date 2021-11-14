@@ -1,0 +1,62 @@
+.container {
+  width: 100%;
+  overflow-y: auto;
+}
+
+.bgFirst {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: calc(2082 / 1920 * 100vw);
+  background: url('/main/main_1.png');
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.bgSecond {
+  position: relative;
+  top: calc(-2082 / 1920 * 10vw);
+  width: 100%;
+  background: url('/main/main_2.png');
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.bgThird {
+  position: relative;
+  top: calc(-2082 / 1920 * 10vw);
+  left: 0;
+  width: 100%;
+  height: calc(3481 / 1920 * 100vw);
+  background: url('/main/main_2.png');
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.bgFourth {
+  position: absolute;
+  top: calc((3481 / 1920 * 199vw) + (2082 / 1920 * 90vw));
+  left: 0;
+  width: 100%;
+  height: calc(3481 / 1920 * 100vw);
+  background: url('/main/main_2.png');
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.bgFifth {
+  position: absolute;
+  top: calc((3481 / 1920 * 298vw) + (2082 / 1920 * 90vw));
+  left: 0;
+  width: 100%;
+  height: calc(3481 / 1920 * 100vw);
+  background: url('/main/main_2.png');
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
