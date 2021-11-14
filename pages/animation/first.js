@@ -3,11 +3,21 @@ import styled from '../../styles/AnimationFirst.module.css';
 
 export default function First() {
   const mainRef = useRef(null);
+  const [height, setHeight] = useState(0);
+  const [width, setWidth] = useState(0);
+
+  useEffect(() => {
+    if (!mainRef.current) {
+      return;
+    }
+    setHeight(mainRef.current.clientHeight);
+    setWidth(mainRef.current.clientWidth);
+  }, [mainRef]);
 
   return (
     <main ref={mainRef} className={styled.container}>
       <div className={styled.wrapperImage}>
-        <Canvas className={styled.erase} />
+        <Canvas className={styled.erase} height={height} width={width} />
       </div>
     </main>
   );
@@ -15,7 +25,6 @@ export default function First() {
 
 const Canvas = (props) => {
   const canvasRef = useRef(null);
-
   const [isPress, setPress] = useState(false);
   const [position, setPosition] = useState(null);
 
@@ -67,7 +76,7 @@ const Canvas = (props) => {
     context.globalCompositeOperation = 'destination-out';
 
     context.lineJoin = 'round';
-    context.lineWidth = window.innerWidth / 5;
+    context.lineWidth = props.width / 5;
 
     context.beginPath();
     context.moveTo(origin.x, origin.y);
@@ -147,6 +156,7 @@ const Canvas = (props) => {
 
   useEffect(() => {
     if (!window) return;
+    if (props.height === 0 && props.width === 0) return;
     const canvas = canvasRef.current;
     const context = canvas.getContext('2d');
 
@@ -156,12 +166,12 @@ const Canvas = (props) => {
     const img = new Image();
     img.src = '/animation/wrapper.png';
     img.onload = function () {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      context.drawImage(img, 0, 0, window.innerWidth, window.innerHeight);
-      context.drawImage(info, 0, 0, window.innerWidth, window.innerHeight);
+      canvas.width = props.width;
+      canvas.height = props.height;
+      context.drawImage(img, 0, 0, props.width, props.height);
+      context.drawImage(info, 0, 0, props.width, props.height);
     };
-  }, []);
+  }, [props]);
 
-  return <canvas ref={canvasRef} {...props} />;
+  return <canvas ref={canvasRef} />;
 };
