@@ -175,3 +175,16 @@ const Canvas = (props) => {
 
   return <canvas ref={canvasRef} />;
 };
+
+<p align="center">
+  <iframe
+    src="https://ad-college-5l6an40py-whdies816.vercel.app/animation/first"
+    style="width: 80vw;
+  max-width: 850px;
+  height: 115vw;
+	max-height: 1200px;
+  display: flex;
+  margin: auto;
+  border: none;"
+  ></iframe>
+</p>;

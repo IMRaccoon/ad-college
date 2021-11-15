@@ -1,9 +1,10 @@
 import styled from '../../styles/Team_3.module.css';
+import Image from 'next/image';
 
 export default function Page() {
   return (
     <main className={styled.container}>
-      {/* <Image
+      <Image
         src="/team/3/header.png"
         width="1920"
         height="128"
@@ -59,7 +60,7 @@ export default function Page() {
         height="2308"
         layout="responsive"
         alt="Team3 Second Content Text"
-      ></Image> */}
+      ></Image>
     </main>
   );
 }
