@@ -8,26 +8,26 @@ export default function Second() {
     <>
       <script type="text/javascript" src="/js/ticket.js" />
       <main className={styled.container}>
-        <div className={styled.scroll_wrapper} id="ticket_wrapper">
+        <div className={styled.scroll_wrapper}>
           <img
             className={styled.pack_in}
-            id="pack_in"
+            id="animation_team_7_pack_in"
             src="/team/7/pack_in.png"
-            alt="pack in"
+            alt="animation_team_7_pack_in in"
             width="1064"
             height="252"
           />
           <img
             className={styled.pack_out}
-            id="pack_out"
+            id="animation_team_7_pack_out"
             src="/team/7/pack_out.png"
-            alt="pack out"
+            alt="animation_team_7_pack_out"
           />
           <img
             className={styled.ticket}
-            id="ticket"
+            id="animation_team_7_ticket"
             src="/team/7/ticket.png"
-            alt="ticket"
+            alt="animation_team_7_ticket"
             width="973"
             height="363"
           />
