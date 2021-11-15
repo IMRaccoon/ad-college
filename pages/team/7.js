@@ -1,13 +1,12 @@
+/* eslint-disable @next/next/no-img-element */
 import Head from 'next/Head';
 import styled from '../../styles/Team_7.module.css';
 
 export default function Page() {
   return (
     <>
-      <Head>
-        {/* eslint-disable-next-line @next/next/no-sync-scripts */}
-        <script type="text/javascript" src="/js/ticket.js"></script>
-      </Head>
+      {/* eslint-disable-next-line @next/next/no-sync-scripts */}
+      <script type="text/javascript" src="/js/ticket.js"></script>
       <main className={styled.container}>
         {/* <Image
           src="/team/3/header.png"
