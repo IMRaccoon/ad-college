@@ -161,10 +161,10 @@ const Canvas = (props) => {
     const context = canvas.getContext('2d');
 
     const info = new Image();
-    info.src = '/animation/howto.png';
+    info.src = '/animation/first/howto.png';
 
     const img = new Image();
-    img.src = '/animation/wrapper.png';
+    img.src = '/animation/first/wrapper.png';
     img.onload = function () {
       canvas.width = props.width;
       canvas.height = props.height;
@@ -175,16 +175,3 @@ const Canvas = (props) => {
 
   return <canvas ref={canvasRef} />;
 };
-
-<p align="center">
-  <iframe
-    src="https://ad-college-5l6an40py-whdies816.vercel.app/animation/first"
-    style="width: 80vw;
-  max-width: 850px;
-  height: 115vw;
-	max-height: 1200px;
-  display: flex;
-  margin: auto;
-  border: none;"
-  ></iframe>
-</p>;

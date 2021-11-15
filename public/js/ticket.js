@@ -1,66 +1,81 @@
-let animation_team_7_ticket,
-  animation_team_7_packOut,
-  animation_team_7_packIn,
-  animation_team_7_startY;
-let animation_team_7_ticketTop,
-  animation_team_7_packOutTop,
-  animation_team_7_packInTop;
+let wrapper,
+  ticket,
+  packOut,
+  packIn,
+  startY,
+  ticketTop,
+  packOutTop,
+  packInTop,
+  offset,
+  sub;
 
-window.onload = () => {
-  animation_team_7_ticket = document.getElementById('animation_team_7_ticket');
-  animation_team_7_packOut = document.getElementById(
-    'animation_team_7_pack_out',
-  );
-  animation_team_7_packIn = document.getElementById('animation_team_7_pack_in');
+(function () {
+  function getPosition(element) {
+    var yPosition = element.clientHeight / 2;
 
-  const animation_team_7_standard = animation_team_7_packOut.offsetWidth / 1064;
+    while (element) {
+      yPosition += element.offsetTop - element.scrollTop + element.clientTop;
+      element = element.offsetParent;
+    }
 
-  if (animation_team_7_standard === 1) {
-    animation_team_7_ticketTop = -300;
-    animation_team_7_ticket.style.top = animation_team_7_ticketTop + 'px';
-    animation_team_7_packOutTop = 140;
-    animation_team_7_packOut.style.top = animation_team_7_packOutTop + 'px';
-    animation_team_7_packInTop = 250;
-    animation_team_7_packIn.style.top = animation_team_7_packInTop + 'px';
-  } else {
-    animation_team_7_ticketTop = -250 * (animation_team_7_standard * 1.2);
-    animation_team_7_ticket.style.top = animation_team_7_ticketTop + 'px';
-    animation_team_7_packOutTop = 140 * animation_team_7_standard;
-    animation_team_7_packOut.style.top = animation_team_7_packOutTop + 'px';
-    animation_team_7_packInTop = 250 * animation_team_7_standard;
-    animation_team_7_packIn.style.top = animation_team_7_packInTop + 'px';
+    return yPosition;
   }
 
-  animation_team_7_startY =
-    animation_team_7_packOut.getBoundingClientRect().top -
-    document.body.getBoundingClientRect().top;
-  window.addEventListener('scroll', getCurrentHeight, true);
-};
+  function setAnimationStart() {
+    wrapper = document.getElementById('ticket_wrapper');
+    ticket = document.getElementById('ticket');
+    packOut = document.getElementById('pack_out');
+    packIn = document.getElementById('pack_in');
+    const standard = packOut.offsetWidth / 1064;
 
-function getCurrentHeight() {
-  let animation_team_7_sub =
-    window.scrollY + window.outerHeight / 3 - animation_team_7_startY;
+    if (standard >= 1) {
+      ticketTop = -300;
+      ticket.style.top = ticketTop + 'px';
+      packOutTop = 140;
+      packOut.style.top = packOutTop + 'px';
+      packInTop = 250;
+      packIn.style.top = packInTop + 'px';
+      offset = 350;
+    } else {
+      ticketTop = -250 * (standard * 1.2);
+      ticket.style.top = ticketTop + 'px';
+      packOutTop = 140 * standard;
+      packOut.style.top = packOutTop + 'px';
+      packInTop = 250 * standard;
+      packIn.style.top = packInTop + 'px';
+      offset = 250 + 100 * standard;
+    }
 
-  if (animation_team_7_sub > 0 && animation_team_7_sub < 350) {
-    animation_team_7_ticket.style.top =
-      animation_team_7_ticketTop + animation_team_7_sub * 0.85 + 'px';
-    animation_team_7_packOut.style.top =
-      animation_team_7_packOutTop + animation_team_7_sub + 'px';
-    animation_team_7_packIn.style.top =
-      animation_team_7_packInTop + animation_team_7_sub + 'px';
-    animation_team_7_ticket.style.transform =
-      'rotate(' + animation_team_7_sub / 24 + 'deg)';
-  } else if (animation_team_7_sub <= 0) {
-    animation_team_7_ticket.style.top = animation_team_7_ticketTop + 'px';
-    animation_team_7_packOut.style.top = animation_team_7_packOutTop + 'px';
-    animation_team_7_packIn.style.top = animation_team_7_packInTop + 'px';
-    animation_team_7_ticket.style.transform = 'rotate(0deg)';
-  } else {
-    animation_team_7_ticket.style.top =
-      animation_team_7_ticketTop + 350 * 0.85 + 'px';
-    animation_team_7_packOut.style.top =
-      animation_team_7_packOutTop + 350 + 'px';
-    animation_team_7_packIn.style.top = animation_team_7_packInTop + 350 + 'px';
-    animation_team_7_ticket.style.transform = 'rotate(14.6deg)';
+    startY = getPosition(ticket);
+    wrapper.style.marginBottom = offset + 'px';
   }
-}
+
+  function getScrollAnimation() {
+    sub = window.scrollY + window.outerHeight / 2 - startY;
+    if (sub > 0 && sub < offset) {
+      ticket.style.top = ticketTop + sub * 0.85 + 'px';
+      packOut.style.top = packOutTop + sub + 'px';
+      packIn.style.top = packInTop + sub + 'px';
+      ticket.style.transform = 'rotate(' + sub / 24 + 'deg)';
+    } else if (sub <= 0) {
+      ticket.style.top = ticketTop + 'px';
+      packOut.style.top = packOutTop + 'px';
+      packIn.style.top = packInTop + 'px';
+      ticket.style.transform = 'rotate(0deg)';
+    } else {
+      ticket.style.top = ticketTop + offset * 0.85 + 'px';
+      packOut.style.top = packOutTop + offset + 'px';
+      packIn.style.top = packInTop + offset + 'px';
+      ticket.style.transform = 'rotate(14.6deg)';
+    }
+  }
+
+  window.addEventListener('load', () => {
+    setAnimationStart();
+    window.addEventListener('scroll', getScrollAnimation, true);
+  });
+
+  window.addEventListener('resize', () => {
+    setAnimationStart();
+  });
+})();

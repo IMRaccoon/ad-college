@@ -1,0 +1,180 @@
+<html>
+  <head>
+    <script>
+      (function () {
+        let animation_team_7_wrapper,
+          animation_team_7_ticket,
+          animation_team_7_packOut,
+          animation_team_7_packIn,
+          animation_team_7_startY,
+          animation_team_7_ticketTop,
+          animation_team_7_packOutTop,
+          animation_team_7_packInTop,
+          animation_team_7_offset,
+          animation_team_7_sub;
+        function getPosition(element) {
+          var yPosition = element.clientHeight / 2;
+
+          while (element) {
+            yPosition +=
+              element.offsetTop - element.scrollTop + element.clientTop;
+            element = element.offsetParent;
+          }
+
+          return yPosition;
+        }
+
+        function setAnimationStart() {
+          animation_team_7_wrapper = document.getElementById(
+            'animation_team_7_ticket_wrapper',
+          );
+          animation_team_7_ticket = document.getElementById(
+            'animation_team_7_ticket',
+          );
+          animation_team_7_packOut = document.getElementById(
+            'animation_team_7_pack_out',
+          );
+          animation_team_7_packIn = document.getElementById(
+            'animation_team_7_pack_in',
+          );
+          const standard = animation_team_7_packOut.offsetWidth / 1064;
+
+          if (standard >= 1) {
+            animation_team_7_ticketTop = -300;
+            animation_team_7_ticket.style.top =
+              animation_team_7_ticketTop + 'px';
+            animation_team_7_packOutTop = 140;
+            animation_team_7_packOut.style.top =
+              animation_team_7_packOutTop + 'px';
+            animation_team_7_packInTop = 250;
+            animation_team_7_packIn.style.top =
+              animation_team_7_packInTop + 'px';
+            animation_team_7_offset = 350;
+          } else {
+            animation_team_7_ticketTop = -250 * (standard * 1.2);
+            animation_team_7_ticket.style.top =
+              animation_team_7_ticketTop + 'px';
+            animation_team_7_packOutTop = 140 * standard;
+            animation_team_7_packOut.style.top =
+              animation_team_7_packOutTop + 'px';
+            animation_team_7_packInTop = 250 * standard;
+            animation_team_7_packIn.style.top =
+              animation_team_7_packInTop + 'px';
+            animation_team_7_offset = 250 + 100 * standard;
+          }
+
+          animation_team_7_startY = getPosition(animation_team_7_ticket);
+          animation_team_7_wrapper.style.marginBottom =
+            animation_team_7_offset + 'px';
+        }
+
+        function getScrollAnimation() {
+          animation_team_7_sub =
+            window.scrollY + window.outerHeight / 2 - animation_team_7_startY;
+          if (
+            animation_team_7_sub > 0 &&
+            animation_team_7_sub < animation_team_7_offset
+          ) {
+            animation_team_7_ticket.style.top =
+              animation_team_7_ticketTop + animation_team_7_sub * 0.85 + 'px';
+            animation_team_7_packOut.style.top =
+              animation_team_7_packOutTop + animation_team_7_sub + 'px';
+            animation_team_7_packIn.style.top =
+              animation_team_7_packInTop + animation_team_7_sub + 'px';
+            animation_team_7_ticket.style.transform =
+              'rotate(' + animation_team_7_sub / 24 + 'deg)';
+          } else if (animation_team_7_sub <= 0) {
+            animation_team_7_ticket.style.top =
+              animation_team_7_ticketTop + 'px';
+            animation_team_7_packOut.style.top =
+              animation_team_7_packOutTop + 'px';
+            animation_team_7_packIn.style.top =
+              animation_team_7_packInTop + 'px';
+            animation_team_7_ticket.style.transform = 'rotate(0deg)';
+          } else {
+            animation_team_7_ticket.style.top =
+              animation_team_7_ticketTop +
+              animation_team_7_offset * 0.85 +
+              'px';
+            animation_team_7_packOut.style.top =
+              animation_team_7_packOutTop + animation_team_7_offset + 'px';
+            animation_team_7_packIn.style.top =
+              animation_team_7_packInTop + animation_team_7_offset + 'px';
+            animation_team_7_ticket.style.transform = 'rotate(14.6deg)';
+          }
+        }
+
+        window.addEventListener('load', () => {
+          setAnimationStart();
+          setTimeout(() => {
+            animation_team_7_startY = getPosition(animation_team_7_ticket);
+          }, 1000);
+          window.addEventListener('scroll', getScrollAnimation, true);
+        });
+
+        window.addEventListener('resize', () => {
+          setAnimationStart();
+        });
+      })();
+    </script>
+  </head>
+  <body>
+    <div
+      className="animation_team_7_scroll_wrapper"
+      id="animation_team_7_ticket_wrapper"
+    >
+      <img
+        className="animation_team_7_pack_in"
+        id="animation_team_7_pack_in"
+        src="https://ad-college.vercel.app/team/7/pack_in.png"
+        alt="animation_team_7_pack_in"
+        width="1064"
+        height="252"
+        style="
+          display: flex;
+          margin: auto;
+          z-index: 1;
+          position: relative;
+          max-width: 1064px;
+          max-height: 252px;
+          width: 90vw;
+          height: 21.3vw;
+        "
+      />
+      <img
+        className="animation_team_7_pack_out"
+        id="animation_team_7_pack_out"
+        src="https://ad-college.vercel.app/team/7/pack_out.png"
+        alt="animation_team_7_pack_out"
+        style="
+          display: flex;
+          margin: auto;
+          z-index: 3;
+          position: relative;
+          max-width: 1064px;
+          width: 90vw;
+          max-height: 332px;
+          height: 28vw;
+        "
+      />
+      <img
+        className="animation_team_7_ticket"
+        id="animation_team_7_ticket"
+        src="https://ad-college.vercel.app/team/7/ticket.png"
+        alt="animation_team_7_ticket"
+        width="973"
+        height="363"
+        style="
+          display: flex;
+          margin: auto;
+          z-index: 2;
+          position: relative;
+          max-width: 973px;
+          width: 82.3vw;
+          max-height: 363px;
+          height: 30.7vw;
+        "
+      />
+    </div>
+  </body>
+</html>
