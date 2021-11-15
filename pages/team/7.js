@@ -1,5 +1,4 @@
 /* eslint-disable @next/next/no-img-element */
-import Head from 'next/Head';
 import styled from '../../styles/Team_7.module.css';
 
 export default function Page() {
