@@ -317,7 +317,9 @@ function SixthStep() {
   }, []);
 
   function onClick() {
-    window.open('https://www.instagram.com/naenahee_70yr', '_blank');
+    if (typeof window.open === 'function')
+      window.open('https://www.instagram.com/naenahee_70yr', '_blank');
+    else window.location.href = 'https://www.instagram.com/naenahee_70yr';
   }
 
   return (
