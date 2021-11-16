@@ -68,10 +68,212 @@ function SecondStep({ onClick }) {
 }
 
 function ThirdStep({ onClick }) {
+  const canvasRef = useRef(null);
+
+  const [isPress, setPress] = useState(false);
+  const [position, setPosition] = useState(null);
+  const [round, setRound] = useState(0);
+  const [checkPos, setCheckPos] = useState([]);
+  const [erase, setErase] = useState(0);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+    const vw = document.getElementById('background').offsetWidth / 100;
+    setRound(vw * 5);
+
+    canvas.width = vw * 18.9;
+    canvas.height = vw * 24.5;
+
+    const cover = new Image();
+    cover.src = '/animation/third/mirror_cover.png';
+    cover.onload = () => {
+      setCheckPos([
+        {
+          x: canvasRef.current.width * 0.35,
+          y: canvasRef.current.height * 0.25,
+        },
+        {
+          x: canvasRef.current.width * 0.65,
+          y: canvasRef.current.height * 0.25,
+        },
+        {
+          x: canvasRef.current.width * 0.32,
+          y: canvasRef.current.height * 0.5,
+        },
+        {
+          x: canvasRef.current.width * 0.65,
+          y: canvasRef.current.height * 0.5,
+        },
+        {
+          x: canvasRef.current.width * 0.3,
+          y: canvasRef.current.height * 0.75,
+        },
+        {
+          x: canvasRef.current.width * 0.65,
+          y: canvasRef.current.height * 0.75,
+        },
+      ]);
+      ctx.drawImage(cover, 0, 0, canvas.width, canvas.height);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (checkPos.length !== 6) return;
+
+    let count = 0;
+    let timer = setInterval(() => {
+      if (checkPos.length === 6) {
+        if (count === 6) {
+          clearInterval(timer);
+          canvasRef.current.style.display = 'none';
+          setErase(6);
+        } else {
+          count = checkPos.reduce((acc, cur) => {
+            return canvasRef.current
+              .getContext('2d')
+              .getImageData(cur.x, cur.y, 3, 3).data[3] === 0
+              ? acc + 1
+              : acc;
+          }, 0);
+        }
+      }
+    }, 500);
+  }, [checkPos]);
+
+  function eraseCover(origin, next) {
+    if (!canvasRef.current) return;
+    const canvas = canvasRef.current;
+    const context = canvas.getContext('2d');
+    if (!context) return;
+    context.globalCompositeOperation = 'destination-out';
+    context.lineJoin = 'round';
+    context.lineWidth = round;
+
+    context.beginPath();
+    context.moveTo(origin.x, origin.y);
+    context.lineTo(next.x, next.y);
+    context.closePath();
+    context.stroke();
+  }
+
+  function getCoordinate(event, isMobile) {
+    if (!canvasRef.current) {
+      return;
+    }
+    const canvas = canvasRef.current;
+    return isMobile
+      ? {
+          x: event.changedTouches[0].pageX - canvas.offsetLeft,
+          y: event.changedTouches[0].pageY - canvas.offsetTop,
+        }
+      : {
+          x: event.pageX - canvas.offsetLeft,
+          y: event.pageY - canvas.offsetTop,
+        };
+  }
+
+  const startPaint = useCallback((event) => {
+    const coordinates = getCoordinate(event, false);
+    if (coordinates) {
+      setPress(true);
+      setPosition(coordinates);
+    }
+  }, []);
+
+  const startPaintMobile = useCallback((event) => {
+    const coordinates = getCoordinate(event, true);
+    if (coordinates) {
+      setPress(true);
+      setPosition(coordinates);
+    }
+  }, []);
+
+  const drawing = useCallback(
+    (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      if (isPress) {
+        const newPosition = getCoordinate(event, false);
+        if (position && newPosition) {
+          eraseCover(position, newPosition);
+          setPosition(newPosition);
+        }
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [isPress, position],
+  );
+
+  const drawingMobile = useCallback(
+    (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      if (isPress) {
+        const newPosition = getCoordinate(event, true);
+        if (position && newPosition) {
+          eraseCover(position, newPosition);
+          setPosition(newPosition);
+        }
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [isPress, position],
+  );
+
+  const exitPaint = useCallback(() => {
+    setPress(false);
+  }, []);
+
+  const checkMouseClicked = useCallback((event) => {
+    if (event.buttons === 1) {
+      setPress(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (erase === 6) {
+    }
+  }, [erase]);
+
+  useEffect(() => {
+    const background = document.getElementById('background');
+    background.addEventListener('mousedown', startPaint);
+    background.addEventListener('touchstart', startPaintMobile);
+    background.addEventListener('mousemove', drawing);
+    background.addEventListener('touchmove', drawingMobile);
+    background.addEventListener('mouseup', exitPaint);
+    background.addEventListener('touchend', exitPaint);
+    background.addEventListener('mouseover', checkMouseClicked);
+
+    return () => {
+      background.removeEventListener('mousedown', startPaint);
+      background.removeEventListener('touchstart', startPaintMobile);
+      background.removeEventListener('mousemove', drawing);
+      background.removeEventListener('touchmove', drawingMobile);
+      background.removeEventListener('mouseup', exitPaint);
+      background.removeEventListener('touchend', exitPaint);
+      background.removeEventListener('mouseover', checkMouseClicked);
+    };
+  }, [
+    startPaint,
+    startPaintMobile,
+    drawing,
+    drawingMobile,
+    exitPaint,
+    exitPaint,
+    checkMouseClicked,
+  ]);
+
   return (
-    <div className={styled.wrapperImage} id="background" onClick={onClick}>
+    <div
+      className={styled.wrapperImage}
+      id="background"
+      onClick={erase === 6 ? onClick : () => null}
+    >
       <div className={styled.mirrorBackground} />
       <div className={styled.mirrorSkirt} />
+      <canvas ref={canvasRef} className={styled.mirrorCover} />
     </div>
   );
 }
@@ -129,7 +331,6 @@ function SixthStep() {
     document.getElementById('transform_background').addEventListener(
       'animationend',
       () => {
-        console.log('?');
         setShow(true);
       },
       true,
