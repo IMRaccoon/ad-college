@@ -2,65 +2,39 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import styled from '../../styles/AnimationFirst.module.css';
 
 export default function First() {
-  const mainRef = useRef(null);
-  const [height, setHeight] = useState(0);
-  const [width, setWidth] = useState(0);
-
-  useEffect(() => {
-    if (!mainRef.current) {
-      return;
-    }
-    setHeight(mainRef.current.clientHeight);
-    setWidth(mainRef.current.clientWidth);
-  }, [mainRef]);
-
-  return (
-    <main ref={mainRef} className={styled.container}>
-      <div className={styled.wrapperImage}>
-        <Canvas className={styled.erase} height={height} width={width} />
-      </div>
-    </main>
-  );
-}
-
-const Canvas = (props) => {
   const canvasRef = useRef(null);
   const [isPress, setPress] = useState(false);
   const [position, setPosition] = useState(null);
+  const [round, setRound] = useState(0);
+  const [checkPos, setCheckPos] = useState([]);
+  const [isFinish, setFinish] = useState(false);
 
-  const getCoordinates = (event) => {
-    if (!canvasRef.current) {
-      return;
-    }
-
-    const canvas = canvasRef.current;
-    return {
-      x: event.pageX - canvas.offsetLeft,
-      y: event.pageY - canvas.offsetTop,
-    };
-  };
-
-  const getCoordinatesMobile = (event) => {
+  function getCoordinate(event, isMobile) {
     if (!canvasRef.current) {
       return;
     }
     const canvas = canvasRef.current;
-    return {
-      x: event.changedTouches[0].pageX - canvas.offsetLeft,
-      y: event.changedTouches[0].pageY - canvas.offsetTop,
-    };
-  };
+    return isMobile
+      ? {
+          x: event.changedTouches[0].pageX - canvas.offsetLeft,
+          y: event.changedTouches[0].pageY - canvas.offsetTop,
+        }
+      : {
+          x: event.pageX - canvas.offsetLeft,
+          y: event.pageY - canvas.offsetTop,
+        };
+  }
 
-  const startPaintMobile = useCallback((event) => {
-    const coordinates = getCoordinatesMobile(event);
+  const startPaint = useCallback((event) => {
+    const coordinates = getCoordinate(event, false);
     if (coordinates) {
       setPress(true);
       setPosition(coordinates);
     }
   }, []);
 
-  const startPaint = useCallback((event) => {
-    const coordinates = getCoordinates(event);
+  const startPaintMobile = useCallback((event) => {
+    const coordinates = getCoordinate(event, true);
     if (coordinates) {
       setPress(true);
       setPosition(coordinates);
@@ -76,7 +50,7 @@ const Canvas = (props) => {
     context.globalCompositeOperation = 'destination-out';
 
     context.lineJoin = 'round';
-    context.lineWidth = props.width / 5;
+    context.lineWidth = round;
 
     context.beginPath();
     context.moveTo(origin.x, origin.y);
@@ -90,7 +64,7 @@ const Canvas = (props) => {
       event.preventDefault();
       event.stopPropagation();
       if (isPress) {
-        const newPosition = getCoordinates(event);
+        const newPosition = getCoordinate(event, false);
         if (position && newPosition) {
           drawLine(position, newPosition);
           setPosition(newPosition);
@@ -100,13 +74,12 @@ const Canvas = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [isPress, position],
   );
-
   const paintMobile = useCallback(
     (event) => {
       event.preventDefault();
       event.stopPropagation();
       if (isPress) {
-        const newPosition = getCoordinatesMobile(event);
+        const newPosition = getCoordinate(event, true);
         if (position && newPosition) {
           drawLine(position, newPosition);
           setPosition(newPosition);
@@ -143,7 +116,6 @@ const Canvas = (props) => {
       canvas.removeEventListener('touchstart', startPaintMobile);
       canvas.removeEventListener('mousemove', paint);
       canvas.removeEventListener('touchmove', paintMobile);
-      canvas.removeEventListener('mouseup', exitPaint);
       canvas.removeEventListener('touchend', exitPaint);
       canvas.removeEventListener('mouseover', checkMouseClicked);
     };
@@ -158,22 +130,66 @@ const Canvas = (props) => {
 
   useEffect(() => {
     if (!window) return;
-    if (props.height === 0 && props.width === 0) return;
-    const canvas = canvasRef.current;
-    const context = canvas.getContext('2d');
 
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+
+    const wrapper = document.getElementById('wrapper');
+    canvas.width = wrapper.offsetWidth;
+    canvas.height = wrapper.offsetHeight;
+    setRound(canvas.width / 5);
     const info = new Image();
     info.src = '/animation/first/howto.png';
 
     const img = new Image();
     img.src = '/animation/first/wrapper.png';
     img.onload = function () {
-      canvas.width = props.width;
-      canvas.height = props.height;
-      context.drawImage(img, 0, 0, props.width, props.height);
-      context.drawImage(info, 0, 0, props.width, props.height);
-    };
-  }, [props]);
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      ctx.drawImage(info, 0, 0, canvas.width, canvas.height);
 
-  return <canvas ref={canvasRef} />;
-};
+      const arr = [];
+      for (let i = 0; i < 5; i++) {
+        for (let j = 0; j < 5; j++) {
+          arr.push({
+            x: canvas.width * (0.1 + 0.2 * i),
+            y: canvas.width * (0.1 + 0.2 * j),
+          });
+        }
+      }
+      setCheckPos(arr);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (checkPos.length !== 25) return;
+    if (canvasRef.current === null) return;
+
+    let timer = setInterval(() => {
+      if (checkPos.length > 0) {
+        let count = 0;
+        checkPos.forEach((pos) => {
+          if (
+            canvasRef.current.getContext('2d').getImageData(pos.x, pos.y, 3, 3)
+              .data[3] === 0
+          )
+            count += 1;
+        });
+        if (count >= 15) {
+          clearInterval(timer);
+          setFinish(true);
+        }
+      }
+    }, 500);
+  }, [checkPos]);
+
+  return (
+    <main className={styled.container}>
+      <div className={styled.wrapperImage} id="wrapper">
+        <canvas
+          ref={canvasRef}
+          className={isFinish ? styled.fadeoutCanvas : null}
+        />
+      </div>
+    </main>
+  );
+}
