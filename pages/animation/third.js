@@ -5,7 +5,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import styled from '../../styles/AnimationThird.module.css';
 
 export default function Third() {
-  const [step, setStep] = useState(2);
+  const [step, setStep] = useState(0);
 
   useEffect(() => {
     if (step === 0) {
