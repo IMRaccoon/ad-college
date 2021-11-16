@@ -5,7 +5,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import styled from '../../styles/AnimationThird.module.css';
 
 export default function Third() {
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(2);
 
   useEffect(() => {
     if (step === 0) {
@@ -88,6 +88,7 @@ function ThirdStep({ onClick }) {
 
     const cover = new Image();
     cover.src = '/animation/third/mirror_cover.png';
+
     cover.onload = () => {
       setCheckPos([
         { x: canvas.width * 0.35, y: canvas.height * 0.25 },
@@ -98,7 +99,20 @@ function ThirdStep({ onClick }) {
         { x: canvas.width * 0.65, y: canvas.height * 0.75 },
       ]);
       ctx.drawImage(cover, 0, 0, canvas.width, canvas.height);
-      setLoad(true);
+
+      const text = new Image();
+      text.src = '/animation/third/mirror_text.png';
+      text.onload = () => {
+        console.log('?');
+        ctx.drawImage(
+          text,
+          (canvas.width - vw * 13) / 2,
+          (canvas.height - vw * 4.75) * 0.4,
+          vw * 13,
+          vw * 4.75,
+        );
+        setLoad(true);
+      };
     };
   }, []);
 
