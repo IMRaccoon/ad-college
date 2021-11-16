@@ -100,18 +100,19 @@ function ThirdStep({ onClick }) {
       ]);
       ctx.drawImage(cover, 0, 0, canvas.width, canvas.height);
 
-      const text = new Image();
-      text.src = '/animation/third/mirror_text.png';
-      text.onload = () => {
-        ctx.drawImage(
-          text,
-          (canvas.width - vw * 13) / 2,
-          (canvas.height - vw * 4.75) * 0.4,
-          vw * 13,
-          vw * 4.75,
-        );
-        setLoad(true);
-      };
+      // const text = new Image();
+      // text.src = '/animation/third/mirror_text.png';
+      // text.onload = () => {
+      //   ctx.drawImage(
+      //     text,
+      //     (canvas.width - vw * 13) / 2,
+      //     (canvas.height - vw * 4.75) * 0.4,
+      //     vw * 13,
+      //     vw * 4.75,
+      //   );
+      // };
+
+      setLoad(true);
     };
   }, []);
 
