@@ -1,4 +1,4 @@
-import styled from '../../styles/Team_3.module.css';
+import styled from '../../styles/Team_6.module.css';
 import Image from 'next/image';
 
 export default function Page() {
@@ -53,7 +53,7 @@ export default function Page() {
         layout="responsive"
         alt="Team3 Second Introduce"
       ></Image>
-      <iframe src="/animation/first" className={styled.frame}></iframe>
+      <iframe src="/animation/third" className={styled.frame} />
       <Image
         src="/team/3/second_content_text.png"
         width="1920"

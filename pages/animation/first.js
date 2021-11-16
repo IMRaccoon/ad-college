@@ -97,6 +97,7 @@ const Canvas = (props) => {
         }
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [isPress, position],
   );
 
@@ -112,6 +113,7 @@ const Canvas = (props) => {
         }
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [isPress, position],
   );
 

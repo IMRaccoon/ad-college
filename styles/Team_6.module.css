@@ -7,10 +7,10 @@
 }
 
 .frame {
-  max-width: 1200px;
   width: 80vw;
-  max-height: 1680px;
+  max-width: 1430px;
   height: 120vw;
+  max-height: 800px;
   display: flex;
   margin: auto;
   border: none;
