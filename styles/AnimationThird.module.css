@@ -117,6 +117,19 @@
   position: fixed;
 }
 
+.mirrorCoverDisappear {
+  width: 18.9vw;
+  height: 24.5vw;
+  left: 47.4vw;
+  top: 11.4vw;
+  position: fixed;
+
+  animation: fadeout 1.5s forwards;
+  -moz-animation: fadeout 1.5s forwards; /* Firefox */
+  -webkit-animation: fadeout 1.5s forwards; /* Safari and Chrome */
+  -o-animation: fadeout 1.5s forwards; /* Opera */
+}
+
 .fourthFirstText {
   top: 11vw;
   left: 8vw;

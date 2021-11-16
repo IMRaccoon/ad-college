@@ -5,7 +5,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import styled from '../../styles/AnimationThird.module.css';
 
 export default function Third() {
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(2);
 
   useEffect(() => {
     if (step === 0) {
@@ -74,7 +74,7 @@ function ThirdStep({ onClick }) {
   const [position, setPosition] = useState(null);
   const [round, setRound] = useState(0);
   const [checkPos, setCheckPos] = useState([]);
-  const [erase, setErase] = useState(0);
+  const [finished, setFinished] = useState(false);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -126,8 +126,7 @@ function ThirdStep({ onClick }) {
       if (checkPos.length === 6) {
         if (count === 6) {
           clearInterval(timer);
-          canvasRef.current.style.display = 'none';
-          setErase(6);
+          setFinished(true);
         } else {
           count = checkPos.reduce((acc, cur) => {
             return canvasRef.current
@@ -232,11 +231,6 @@ function ThirdStep({ onClick }) {
   }, []);
 
   useEffect(() => {
-    if (erase === 6) {
-    }
-  }, [erase]);
-
-  useEffect(() => {
     const background = document.getElementById('background');
     background.addEventListener('mousedown', startPaint);
     background.addEventListener('touchstart', startPaintMobile);
@@ -269,11 +263,14 @@ function ThirdStep({ onClick }) {
     <div
       className={styled.wrapperImage}
       id="background"
-      onClick={erase === 6 ? onClick : () => null}
+      onClick={finished ? onClick : () => null}
     >
       <div className={styled.mirrorBackground} />
       <div className={styled.mirrorSkirt} />
-      <canvas ref={canvasRef} className={styled.mirrorCover} />
+      <canvas
+        ref={canvasRef}
+        className={finished ? styled.mirrorCoverDisappear : styled.mirrorCover}
+      />
     </div>
   );
 }
