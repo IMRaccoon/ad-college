@@ -75,6 +75,7 @@ function ThirdStep({ onClick }) {
   const [round, setRound] = useState(0);
   const [checkPos, setCheckPos] = useState([]);
   const [finished, setFinished] = useState(false);
+  const [load, setLoad] = useState(false);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -97,6 +98,7 @@ function ThirdStep({ onClick }) {
         { x: canvas.width * 0.65, y: canvas.height * 0.75 },
       ]);
       ctx.drawImage(cover, 0, 0, canvas.width, canvas.height);
+      setLoad(true);
     };
   }, []);
 
@@ -247,8 +249,12 @@ function ThirdStep({ onClick }) {
       id="background"
       onClick={finished ? onClick : () => null}
     >
-      <div className={styled.mirrorBackground} />
-      <div className={styled.mirrorSkirt} />
+      {load ? (
+        <>
+          <div className={styled.mirrorBackground} />
+          <div className={styled.mirrorSkirt} />
+        </>
+      ) : null}
       <canvas
         ref={canvasRef}
         className={finished ? styled.mirrorCoverDisappear : styled.mirrorCover}
@@ -317,9 +323,9 @@ function SixthStep() {
   }, []);
 
   function onClick() {
-    if (typeof window.open === 'function')
-      window.open('https://www.instagram.com/naenahee_70yr', '_blank');
-    else window.location.href = 'https://www.instagram.com/naenahee_70yr';
+    setTimeout(function () {
+      document.location.href = 'https://www.instagram.com/naenahee_70yr';
+    }, 250);
   }
 
   return (
