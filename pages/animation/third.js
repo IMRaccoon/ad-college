@@ -89,30 +89,12 @@ function ThirdStep({ onClick }) {
     cover.src = '/animation/third/mirror_cover.png';
     cover.onload = () => {
       setCheckPos([
-        {
-          x: canvasRef.current.width * 0.35,
-          y: canvasRef.current.height * 0.25,
-        },
-        {
-          x: canvasRef.current.width * 0.65,
-          y: canvasRef.current.height * 0.25,
-        },
-        {
-          x: canvasRef.current.width * 0.32,
-          y: canvasRef.current.height * 0.5,
-        },
-        {
-          x: canvasRef.current.width * 0.65,
-          y: canvasRef.current.height * 0.5,
-        },
-        {
-          x: canvasRef.current.width * 0.3,
-          y: canvasRef.current.height * 0.75,
-        },
-        {
-          x: canvasRef.current.width * 0.65,
-          y: canvasRef.current.height * 0.75,
-        },
+        { x: canvas.width * 0.35, y: canvas.height * 0.25 },
+        { x: canvas.width * 0.65, y: canvas.height * 0.25 },
+        { x: canvas.width * 0.32, y: canvas.height * 0.5 },
+        { x: canvas.width * 0.65, y: canvas.height * 0.5 },
+        { x: canvas.width * 0.3, y: canvas.height * 0.75 },
+        { x: canvas.width * 0.65, y: canvas.height * 0.75 },
       ]);
       ctx.drawImage(cover, 0, 0, canvas.width, canvas.height);
     };
