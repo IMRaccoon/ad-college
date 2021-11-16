@@ -7,7 +7,8 @@ let wrapper,
   packOutTop,
   packInTop,
   offset,
-  sub;
+  sub,
+  origin_width;
 
 (function () {
   function getPosition(element) {
@@ -35,7 +36,7 @@ let wrapper,
       packOut.style.top = packOutTop + 'px';
       packInTop = 250;
       packIn.style.top = packInTop + 'px';
-      offset = 350;
+      offset = 400;
     } else {
       ticketTop = -250 * (standard * 1.2);
       ticket.style.top = ticketTop + 'px';
@@ -43,7 +44,7 @@ let wrapper,
       packOut.style.top = packOutTop + 'px';
       packInTop = 250 * standard;
       packIn.style.top = packInTop + 'px';
-      offset = 250 + 100 * standard;
+      offset = 150 + 250 * standard;
     }
 
     startY = getPosition(ticket);
@@ -66,16 +67,17 @@ let wrapper,
       ticket.style.top = ticketTop + offset * 0.85 + 'px';
       packOut.style.top = packOutTop + offset + 'px';
       packIn.style.top = packInTop + offset + 'px';
-      ticket.style.transform = 'rotate(14.6deg)';
+      ticket.style.transform = 'rotate(' + offset / 24 + 'deg)';
     }
   }
 
   window.addEventListener('load', () => {
     setAnimationStart();
+    origin_width = window.outerWidth;
     window.addEventListener('scroll', getScrollAnimation, true);
   });
 
   window.addEventListener('resize', () => {
-    setAnimationStart();
+    if (origin_width !== window.outerWidth) setAnimationStart();
   });
 })();

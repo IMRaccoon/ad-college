@@ -11,7 +11,8 @@
           animation_team_7_packOutTop,
           animation_team_7_packInTop,
           animation_team_7_offset,
-          animation_team_7_sub;
+          animation_team_7_sub,
+          animation_team_7_origin_width;
         function getPosition(element) {
           var yPosition = element.clientHeight / 2;
 
@@ -49,7 +50,7 @@
             animation_team_7_packInTop = 250;
             animation_team_7_packIn.style.top =
               animation_team_7_packInTop + 'px';
-            animation_team_7_offset = 350;
+            animation_team_7_offset = 400;
           } else {
             animation_team_7_ticketTop = -250 * (standard * 1.2);
             animation_team_7_ticket.style.top =
@@ -60,7 +61,7 @@
             animation_team_7_packInTop = 250 * standard;
             animation_team_7_packIn.style.top =
               animation_team_7_packInTop + 'px';
-            animation_team_7_offset = 250 + 100 * standard;
+            animation_team_7_offset = 150 + 250 * standard;
           }
 
           animation_team_7_startY = getPosition(animation_team_7_ticket);
@@ -100,7 +101,8 @@
               animation_team_7_packOutTop + animation_team_7_offset + 'px';
             animation_team_7_packIn.style.top =
               animation_team_7_packInTop + animation_team_7_offset + 'px';
-            animation_team_7_ticket.style.transform = 'rotate(14.6deg)';
+            animation_team_7_ticket.style.transform =
+              'rotate(' + animation_team_7_offset / 24 + 'deg)';
           }
         }
 
@@ -109,11 +111,13 @@
           setTimeout(() => {
             animation_team_7_startY = getPosition(animation_team_7_ticket);
           }, 1000);
+          animation_team_7_origin_width = window.outerWidth;
           window.addEventListener('scroll', getScrollAnimation, true);
         });
 
         window.addEventListener('resize', () => {
-          setAnimationStart();
+          if (animation_team_7_origin_width !== window.outerWidth)
+            setAnimationStart();
         });
       })();
     </script>

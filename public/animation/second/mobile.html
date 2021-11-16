@@ -11,7 +11,9 @@
           m_animation_team_7_packOutTop,
           m_animation_team_7_packInTop,
           m_animation_team_7_offset,
-          m_animation_team_7_sub;
+          m_animation_team_7_sub,
+          m_animation_team_7_origin_width;
+
         function getPosition(element) {
           var yPosition = element.clientHeight / 2;
 
@@ -49,7 +51,7 @@
             m_animation_team_7_packInTop = 250;
             m_animation_team_7_packIn.style.top =
               m_animation_team_7_packInTop + 'px';
-            m_animation_team_7_offset = 350;
+            m_animation_team_7_offset = 400;
           } else {
             m_animation_team_7_ticketTop = -250 * (standard * 1.2);
             m_animation_team_7_ticket.style.top =
@@ -60,7 +62,7 @@
             m_animation_team_7_packInTop = 250 * standard;
             m_animation_team_7_packIn.style.top =
               m_animation_team_7_packInTop + 'px';
-            m_animation_team_7_offset = 250 + 100 * standard;
+            m_animation_team_7_offset = 150 + 250 * standard;
           }
 
           m_animation_team_7_startY = getPosition(m_animation_team_7_ticket);
@@ -102,7 +104,8 @@
               m_animation_team_7_packOutTop + m_animation_team_7_offset + 'px';
             m_animation_team_7_packIn.style.top =
               m_animation_team_7_packInTop + m_animation_team_7_offset + 'px';
-            m_animation_team_7_ticket.style.transform = 'rotate(14.6deg)';
+            m_animation_team_7_ticket.style.transform =
+              'rotate(' + m_animation_team_7_offset / 24 + 'deg)';
           }
         }
 
@@ -111,11 +114,13 @@
           setTimeout(() => {
             m_animation_team_7_startY = getPosition(m_animation_team_7_ticket);
           }, 1000);
+          m_animation_team_7_origin_width = window.outerWidth;
           window.addEventListener('scroll', getScrollAnimation, true);
         });
 
         window.addEventListener('resize', () => {
-          setAnimationStart();
+          if (m_animation_team_7_origin_width !== window.outerWidth)
+            setAnimationStart();
         });
       })();
     </script>
