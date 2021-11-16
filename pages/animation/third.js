@@ -103,7 +103,6 @@ function ThirdStep({ onClick }) {
       const text = new Image();
       text.src = '/animation/third/mirror_text.png';
       text.onload = () => {
-        console.log('?');
         ctx.drawImage(
           text,
           (canvas.width - vw * 13) / 2,
@@ -227,6 +226,12 @@ function ThirdStep({ onClick }) {
       setPress(true);
     }
   }, []);
+
+  useEffect(() => {
+    if (finished) {
+      canvasRef.current.addEventListener('animationend', onClick);
+    }
+  }, [finished]);
 
   useEffect(() => {
     const background = document.getElementById('background');
