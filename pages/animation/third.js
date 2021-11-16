@@ -323,9 +323,15 @@ function SixthStep() {
   }, []);
 
   function onClick() {
-    setTimeout(function () {
-      document.location.href = 'https://www.instagram.com/naenahee_70yr';
-    }, 250);
+    if (typeof window.open === 'function') {
+      window.open('https://www.instagram.com/naenahee_70yr', '_blank');
+    } else if (typeof window.location.href === 'string') {
+      window.location.href = 'https://www.instagram.com/naenahee_70yr';
+    } else {
+      setTimeout(function () {
+        document.location.href = 'https://www.instagram.com/naenahee_70yr';
+      }, 250);
+    }
   }
 
   return (
