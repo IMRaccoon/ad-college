@@ -344,12 +344,12 @@ function SixthStep() {
 
   function onClick() {
     if (typeof window.open === 'function') {
-      window.open('https://www.instagram.com/naenahee_70yr', '_blank');
+      window.open('https://www.instagram.com/naenahee_70yr/', '_blank');
     } else if (typeof window.location.href === 'string') {
-      window.location.href = 'https://www.instagram.com/naenahee_70yr';
+      window.location.href = 'https://www.instagram.com/naenahee_70yr/';
     } else {
       setTimeout(function () {
-        document.location.href = 'https://www.instagram.com/naenahee_70yr';
+        document.location.href = 'https://www.instagram.com/naenahee_70yr/';
       }, 250);
     }
   }
