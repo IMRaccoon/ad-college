@@ -1,27 +1,33 @@
 <html>
   <head>
     <script>
+      let animation_team_7_wrapper,
+        animation_team_7_ticket,
+        animation_team_7_packOut,
+        animation_team_7_packIn,
+        animation_team_7_startY,
+        animation_team_7_ticketTop,
+        animation_team_7_packOutTop,
+        animation_team_7_packInTop,
+        animation_team_7_offset,
+        animation_team_7_sub,
+        animation_team_7_origin_width;
       (function () {
-        let animation_team_7_wrapper,
-          animation_team_7_ticket,
-          animation_team_7_packOut,
-          animation_team_7_packIn,
-          animation_team_7_startY,
-          animation_team_7_ticketTop,
-          animation_team_7_packOutTop,
-          animation_team_7_packInTop,
-          animation_team_7_offset,
-          animation_team_7_sub,
-          animation_team_7_origin_width;
         function getPosition(element) {
-          var yPosition = element.clientHeight / 2;
+          let yPosition =
+            animation_team_7_wrapper.offsetHeight -
+            (-animation_team_7_ticketTop +
+              animation_team_7_ticket.offsetHeight);
+          let p = element.parentElement;
 
-          while (element) {
-            yPosition +=
-              element.offsetTop - element.scrollTop + element.clientTop;
-            element = element.offsetParent;
+          while (!!p) {
+            yPosition += p.offsetTop;
+            p = p.parentElement;
           }
 
+          if (window.innerWidth >= 768 && window.innerWidth <= 1024) {
+            return yPosition * 0.85;
+          }
           return yPosition;
         }
 
@@ -51,6 +57,8 @@
             animation_team_7_packIn.style.top =
               animation_team_7_packInTop + 'px';
             animation_team_7_offset = 400;
+            animation_team_7_wrapper.style.marginBottom =
+              animation_team_7_offset + 'px';
           } else {
             animation_team_7_ticketTop = -250 * (standard * 1.2);
             animation_team_7_ticket.style.top =
@@ -62,16 +70,16 @@
             animation_team_7_packIn.style.top =
               animation_team_7_packInTop + 'px';
             animation_team_7_offset = 150 + 250 * standard;
+            animation_team_7_wrapper.style.marginBottom =
+              animation_team_7_offset + 'px';
           }
 
-          animation_team_7_startY = getPosition(animation_team_7_ticket);
-          animation_team_7_wrapper.style.marginBottom =
-            animation_team_7_offset + 'px';
+          animation_team_7_startY =
+            getPosition(animation_team_7_ticket) - window.innerHeight * 0.4;
         }
 
         function getScrollAnimation() {
-          animation_team_7_sub =
-            window.scrollY + window.outerHeight / 2 - animation_team_7_startY;
+          animation_team_7_sub = window.scrollY - animation_team_7_startY;
           if (
             animation_team_7_sub > 0 &&
             animation_team_7_sub < animation_team_7_offset
@@ -108,16 +116,15 @@
 
         window.addEventListener('load', () => {
           setAnimationStart();
-          setTimeout(() => {
-            animation_team_7_startY = getPosition(animation_team_7_ticket);
-          }, 1000);
           animation_team_7_origin_width = window.outerWidth;
           window.addEventListener('scroll', getScrollAnimation, true);
         });
 
         window.addEventListener('resize', () => {
-          if (animation_team_7_origin_width !== window.outerWidth)
+          if (animation_team_7_origin_width !== window.outerWidth) {
+            animation_team_7_origin_width = window.outerWidth;
             setAnimationStart();
+          }
         });
       })();
     </script>

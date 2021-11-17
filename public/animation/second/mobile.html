@@ -1,28 +1,32 @@
 <html>
   <head>
     <script>
+      let m_animation_team_7_wrapper,
+        m_animation_team_7_ticket,
+        m_animation_team_7_packOut,
+        m_animation_team_7_packIn,
+        m_animation_team_7_startY,
+        m_animation_team_7_ticketTop,
+        m_animation_team_7_packOutTop,
+        m_animation_team_7_packInTop,
+        m_animation_team_7_offset,
+        m_animation_team_7_sub,
+        m_animation_team_7_origin_width;
       (function () {
-        let m_animation_team_7_wrapper,
-          m_animation_team_7_ticket,
-          m_animation_team_7_packOut,
-          m_animation_team_7_packIn,
-          m_animation_team_7_startY,
-          m_animation_team_7_ticketTop,
-          m_animation_team_7_packOutTop,
-          m_animation_team_7_packInTop,
-          m_animation_team_7_offset,
-          m_animation_team_7_sub,
-          m_animation_team_7_origin_width;
-
         function getPosition(element) {
-          var yPosition = element.clientHeight / 2;
+          let yPosition =
+            m_animation_team_7_wrapper.offsetHeight +
+            m_animation_team_7_ticketTop -
+            m_animation_team_7_ticket.offsetHeight;
+          let p = element.parentElement;
 
-          while (element) {
-            yPosition +=
-              element.offsetTop - element.scrollTop + element.clientTop;
-            element = element.offsetParent;
+          while (!!p) {
+            yPosition += p.offsetTop;
+            p = p.parentElement;
           }
-
+          if (window.innerWidth >= 768 && window.innerWidth <= 1024) {
+            return yPosition * 0.85;
+          }
           return yPosition;
         }
 
@@ -52,6 +56,8 @@
             m_animation_team_7_packIn.style.top =
               m_animation_team_7_packInTop + 'px';
             m_animation_team_7_offset = 400;
+            m_animation_team_7_wrapper.style.marginBottom =
+              m_animation_team_7_offset + 'px';
           } else {
             m_animation_team_7_ticketTop = -250 * (standard * 1.2);
             m_animation_team_7_ticket.style.top =
@@ -63,16 +69,16 @@
             m_animation_team_7_packIn.style.top =
               m_animation_team_7_packInTop + 'px';
             m_animation_team_7_offset = 150 + 250 * standard;
+            m_animation_team_7_wrapper.style.marginBottom =
+              m_animation_team_7_offset + 'px';
           }
 
-          m_animation_team_7_startY = getPosition(m_animation_team_7_ticket);
-          m_animation_team_7_wrapper.style.marginBottom =
-            m_animation_team_7_offset + 'px';
+          m_animation_team_7_startY =
+            getPosition(m_animation_team_7_ticket) - window.innerHeight * 0.4;
         }
 
         function getScrollAnimation() {
-          m_animation_team_7_sub =
-            window.scrollY + window.outerHeight / 2 - m_animation_team_7_startY;
+          m_animation_team_7_sub = window.scrollY - m_animation_team_7_startY;
           if (
             m_animation_team_7_sub > 0 &&
             m_animation_team_7_sub < m_animation_team_7_offset
@@ -111,16 +117,15 @@
 
         window.addEventListener('load', () => {
           setAnimationStart();
-          setTimeout(() => {
-            m_animation_team_7_startY = getPosition(m_animation_team_7_ticket);
-          }, 1000);
           m_animation_team_7_origin_width = window.outerWidth;
           window.addEventListener('scroll', getScrollAnimation, true);
         });
 
         window.addEventListener('resize', () => {
-          if (m_animation_team_7_origin_width !== window.outerWidth)
+          if (m_animation_team_7_origin_width !== window.outerWidth) {
             setAnimationStart();
+            m_animation_team_7_origin_width = window.outerWidth;
+          }
         });
       })();
     </script>

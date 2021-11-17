@@ -12,13 +12,16 @@ let wrapper,
 
 (function () {
   function getPosition(element) {
-    var yPosition = element.clientHeight / 2;
+    let yPosition = wrapper.offsetHeight + ticketTop - ticket.offsetHeight;
+    let p = element.parentElement;
 
-    while (element) {
-      yPosition += element.offsetTop - element.scrollTop + element.clientTop;
-      element = element.offsetParent;
+    while (!!p) {
+      yPosition += p.offsetTop;
+      p = p.parentElement;
     }
-
+    if (window.innerWidth >= 768 && window.innerWidth <= 1024) {
+      return yPosition * 0.85;
+    }
     return yPosition;
   }
 
@@ -37,6 +40,7 @@ let wrapper,
       packInTop = 250;
       packIn.style.top = packInTop + 'px';
       offset = 400;
+      wrapper.style.marginBottom = offset + 'px';
     } else {
       ticketTop = -250 * (standard * 1.2);
       ticket.style.top = ticketTop + 'px';
@@ -45,14 +49,15 @@ let wrapper,
       packInTop = 250 * standard;
       packIn.style.top = packInTop + 'px';
       offset = 150 + 250 * standard;
+      wrapper.style.marginBottom = offset + 'px';
     }
 
-    startY = getPosition(ticket);
-    wrapper.style.marginBottom = offset + 'px';
+    startY = getPosition(ticket) - window.innerHeight * 0.4;
   }
 
   function getScrollAnimation() {
-    sub = window.scrollY + window.outerHeight / 2 - startY;
+    //  window.outerHeight / 2
+    sub = window.scrollY - startY;
     if (sub > 0 && sub < offset) {
       ticket.style.top = ticketTop + sub * 0.85 + 'px';
       packOut.style.top = packOutTop + sub + 'px';
