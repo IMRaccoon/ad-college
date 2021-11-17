@@ -5,7 +5,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import styled from '../../styles/AnimationThird.module.css';
 
 export default function Third() {
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(2);
 
   useEffect(() => {
     if (step === 0) {
@@ -76,19 +76,21 @@ function ThirdStep({ onClick }) {
   const [checkPos, setCheckPos] = useState([]);
   const [finished, setFinished] = useState(false);
   const [load, setLoad] = useState(false);
+  const [calibrate, setCalibrate] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
-    const vw = document.getElementById('background').offsetWidth / 100;
-    setRound(vw * 5);
 
-    canvas.width = vw * 18.9;
-    canvas.height = vw * 24.5;
+    canvas.width = 270;
+    canvas.height = 350;
+    setRound(90);
+
+    const vw = document.getElementById('background').offsetWidth / 100;
+    setCalibrate({ x: 270 / (vw * 18.9), y: 350 / (vw * 24.5) });
 
     const cover = new Image();
     cover.src = '/animation/third/mirror_cover.png';
-
     cover.onload = () => {
       setCheckPos([
         { x: canvas.width * 0.35, y: canvas.height * 0.25 },
@@ -99,25 +101,13 @@ function ThirdStep({ onClick }) {
         { x: canvas.width * 0.65, y: canvas.height * 0.75 },
       ]);
       ctx.drawImage(cover, 0, 0, canvas.width, canvas.height);
-
-      // const text = new Image();
-      // text.src = '/animation/third/mirror_text.png';
-      // text.onload = () => {
-      //   ctx.drawImage(
-      //     text,
-      //     (canvas.width - vw * 13) / 2,
-      //     (canvas.height - vw * 4.75) * 0.4,
-      //     vw * 13,
-      //     vw * 4.75,
-      //   );
-      // };
-
       setLoad(true);
     };
   }, []);
 
   useEffect(() => {
     if (checkPos.length !== 6) return;
+    if (!canvasRef.current) return;
 
     let count = 0;
     let timer = setInterval(() => {
@@ -155,36 +145,42 @@ function ThirdStep({ onClick }) {
   }
 
   function getCoordinate(event, isMobile) {
-    if (!canvasRef.current) {
+    if (!canvasRef.current || calibrate.x === 0) {
       return;
     }
     const canvas = canvasRef.current;
     return isMobile
       ? {
-          x: event.changedTouches[0].pageX - canvas.offsetLeft,
-          y: event.changedTouches[0].pageY - canvas.offsetTop,
+          x: (event.changedTouches[0].pageX - canvas.offsetLeft) * calibrate.x,
+          y: (event.changedTouches[0].pageY - canvas.offsetTop) * calibrate.y,
         }
       : {
-          x: event.pageX - canvas.offsetLeft,
-          y: event.pageY - canvas.offsetTop,
+          x: (event.pageX - canvas.offsetLeft) * calibrate.x,
+          y: (event.pageY - canvas.offsetTop) * calibrate.y,
         };
   }
 
-  const startPaint = useCallback((event) => {
-    const coordinates = getCoordinate(event, false);
-    if (coordinates) {
-      setPress(true);
-      setPosition(coordinates);
-    }
-  }, []);
+  const startPaint = useCallback(
+    (event) => {
+      const coordinates = getCoordinate(event, false);
+      if (coordinates) {
+        setPress(true);
+        setPosition(coordinates);
+      }
+    },
+    [calibrate],
+  );
 
-  const startPaintMobile = useCallback((event) => {
-    const coordinates = getCoordinate(event, true);
-    if (coordinates) {
-      setPress(true);
-      setPosition(coordinates);
-    }
-  }, []);
+  const startPaintMobile = useCallback(
+    (event) => {
+      const coordinates = getCoordinate(event, true);
+      if (coordinates) {
+        setPress(true);
+        setPosition(coordinates);
+      }
+    },
+    [calibrate],
+  );
 
   const drawing = useCallback(
     (event) => {
@@ -199,7 +195,7 @@ function ThirdStep({ onClick }) {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isPress, position],
+    [isPress, position, calibrate],
   );
 
   const drawingMobile = useCallback(
@@ -215,7 +211,7 @@ function ThirdStep({ onClick }) {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isPress, position],
+    [isPress, position, calibrate],
   );
 
   const exitPaint = useCallback(() => {
