@@ -22,14 +22,24 @@
 .pageLayout {
   width: 100vw;
   height: 100vh;
-  display: flex;
+}
+
+.snow {
+  width: 100vw;
+  height: 100vh;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   background: url('/main/main_snow.png');
   background-size: 63vw 40vw;
-  background-position: center;
   background-repeat: no-repeat;
+  background-position: center center;
+  display: none;
+
+  animation: fadein 1s;
+  -moz-animation: fadein 1s; /* Firefox */
+  -webkit-animation: fadein 1s; /* Safari and Chrome */
+  -o-animation: fadein 1s; /* Opera */
 }
 
 .firstText {
@@ -38,7 +48,6 @@
   width: 80vw;
   height: 6vw;
   margin-bottom: 5vh;
-  display: none;
   background: url('/main/main_first_text.png');
   background-size: 100% 100%;
   background-position: center;
@@ -59,12 +68,11 @@
   background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
-  display: none;
 
-  animation: fadein 1s;
-  -moz-animation: fadein 1s; /* Firefox */
-  -webkit-animation: fadein 1s; /* Safari and Chrome */
-  -o-animation: fadein 1s; /* Opera */
+  animation: fadein 1.5s;
+  -moz-animation: fadein 1.5s; /* Firefox */
+  -webkit-animation: fadein 1.5s; /* Safari and Chrome */
+  -o-animation: fadein 1.5s; /* Opera */
 }
 
 .secondText {
@@ -77,12 +85,11 @@
   background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
-  display: none;
 
-  animation: fadein 1.5s;
-  -moz-animation: fadein 1.5s; /* Firefox */
-  -webkit-animation: fadein 1.5s; /* Safari and Chrome */
-  -o-animation: fadein 1.5s; /* Opera */
+  animation: fadein 2s;
+  -moz-animation: fadein 2s; /* Firefox */
+  -webkit-animation: fadein 2s; /* Safari and Chrome */
+  -o-animation: fadein 2s; /* Opera */
 }
 
 .thirdText {
@@ -95,12 +102,11 @@
   background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
-  display: none;
 
-  animation: fadein 1.5s;
-  -moz-animation: fadein 1.5s; /* Firefox */
-  -webkit-animation: fadein 1.5s; /* Safari and Chrome */
-  -o-animation: fadein 1.5s; /* Opera */
+  animation: fadein 2s;
+  -moz-animation: fadein 2s; /* Firefox */
+  -webkit-animation: fadein 2s; /* Safari and Chrome */
+  -o-animation: fadein 2s; /* Opera */
 }
 
 .fourthText {
@@ -114,12 +120,11 @@
   background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
-  display: none;
 
-  animation: fadein 1.5s;
-  -moz-animation: fadein 1.5s; /* Firefox */
-  -webkit-animation: fadein 1.5s; /* Safari and Chrome */
-  -o-animation: fadein 1.5s; /* Opera */
+  animation: fadein 2s;
+  -moz-animation: fadein 2s; /* Firefox */
+  -webkit-animation: fadein 2s; /* Safari and Chrome */
+  -o-animation: fadein 2s; /* Opera */
 }
 
 .fifthText {
@@ -132,12 +137,11 @@
   background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
-  display: none;
 
-  animation: fadein 1.5s;
-  -moz-animation: fadein 1.5s; /* Firefox */
-  -webkit-animation: fadein 1.5s; /* Safari and Chrome */
-  -o-animation: fadein 1.5s; /* Opera */
+  animation: fadein 2s;
+  -moz-animation: fadein 2s; /* Firefox */
+  -webkit-animation: fadein 2s; /* Safari and Chrome */
+  -o-animation: fadein 2s; /* Opera */
 }
 
 .category {

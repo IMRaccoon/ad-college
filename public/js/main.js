@@ -39,18 +39,16 @@
         // do something before scrolling begins
       },
       onStart: function (turn) {
-        console.log(turn);
         if (turn === 'page-2') {
-          document.getElementById('first-text').style.display = 'block';
-          document.getElementById('first-letter').style.display = 'block';
+          document.getElementById('first-background').style.display = 'flex';
         } else if (turn === 'page-3') {
-          document.getElementById('second-text').style.display = 'block';
+          document.getElementById('second-background').style.display = 'flex';
         } else if (turn === 'page-4') {
-          document.getElementById('third-text').style.display = 'block';
+          document.getElementById('third-background').style.display = 'flex';
         } else if (turn === 'page-5') {
-          document.getElementById('fourth-text').style.display = 'block';
+          document.getElementById('fourth-background').style.display = 'flex';
         } else if (turn === 'page-6') {
-          document.getElementById('fifth-text').style.display = 'block';
+          document.getElementById('fifth-background').style.display = 'flex';
         }
         // do something when scrolling begins
       },
@@ -66,7 +64,6 @@
   }
 
   function limitation(data) {
-    console.log(data);
     lastTop = data.scrolled;
     pageable.freeScroll = true;
     pageable.destroy();
