@@ -7,9 +7,13 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
+::-webkit-scrollbar {
+  display: none;
+}
 
 body {
   scroll-behavior: smooth;
+  -ms-overflow-style: none;
   overflow-y: auto;
 }
 

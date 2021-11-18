@@ -3,12 +3,26 @@
   let moving = false;
   let page1, page2, page3, page4, page5, page6;
   let page1Top, page2Top, page3Top, page4Top, page5Top, page6Top, page7Top;
+  let prevMobile, nextMobile;
 
   window.addEventListener('load', () => {
     setTimeout(() => {
       window.scrollTo(0, 0);
       disableScroll();
     }, 100);
+
+    window.addEventListener('touchstart', (e) => {
+      prevMobile = e.touches[0].clientY;
+    });
+
+    window.addEventListener('touchend', (e) => {
+      nextMobile = e.changedTouches[0].clientY;
+      if (prevMobile > nextMobile + 5) {
+        getDirection(true, e);
+      } else if (prevMobile < nextMobile - 5) {
+        getDirection(false, e);
+      }
+    });
 
     page1 = document.getElementById('Page_1');
     page2 = document.getElementById('Page_2');
@@ -27,13 +41,13 @@
 
   var keys = { 37: 1, 38: 1, 39: 1, 40: 1 };
 
-  function preventDefault(e) {
+  function preventDefaultCom(e) {
     if (status === 7) {
       let checkScroll = setInterval(() => {
         if (window.scrollY < page7Top) {
           clearInterval(checkScroll);
           moving = true;
-          moveFromTo(page7Top, page6Top).then((_) => {
+          scrollTo(page6Top).then((_) => {
             disableScroll();
             status = 6;
           });
@@ -43,50 +57,69 @@
       e.preventDefault();
       if (moving) return;
       moving = true;
-      if (status === 1) {
-        if (e.deltaY > 0) {
-          moveFromTo(page1Top, page2Top).then((_) => (status = 2));
-          page2.style.display = 'flex';
-        }
-      } else if (status === 2) {
-        if (e.deltaY > 0) {
-          moveFromTo(page2Top, page3Top).then((_) => (status = 3));
-          page3.style.display = 'flex';
-        } else if (e.deltaY < 0) {
-          moveFromTo(page2Top, page1Top).then((_) => (status = 1));
-        }
-      } else if (status === 3) {
-        if (e.deltaY > 0) {
-          moveFromTo(page3Top, page4Top).then((_) => (status = 4));
-          page4.style.display = 'flex';
-        } else if (e.deltaY < 0) {
-          moveFromTo(page3Top, page2Top).then((_) => (status = 2));
-        }
-      } else if (status === 4) {
-        if (e.deltaY > 0) {
-          moveFromTo(page4Top, page5Top).then((_) => (status = 5));
-          page5.style.display = 'flex';
-        } else if (e.deltaY < 0) {
-          moveFromTo(page4Top, page3Top).then((_) => (status = 3));
-        }
-      } else if (status === 5) {
-        if (e.deltaY > 0) {
-          moveFromTo(page5Top, page6Top).then((_) => (status = 6));
-          page6.style.display = 'flex';
-        } else if (e.deltaY < 0) {
-          moveFromTo(page5Top, page4Top).then((_) => (status = 4));
-        }
-      } else if (status === 6) {
-        if (e.deltaY > 0) {
-          moveFromTo(page6Top, page7Top).then((_) => (status = 7));
-        } else if (e.deltaY < 0) {
-          moveFromTo(page6Top, page5Top).then((_) => (status = 5));
-        }
+      getDirection(e.deltaY > 0);
+    }
+  }
+
+  function getDirection(isdown, e = null) {
+    if (status === 1) {
+      if (isdown) {
+        scrollTo(page2Top).then((_) => (status = 2));
+        page2.style.display = 'flex';
+      }
+    } else if (status === 2) {
+      if (isdown) {
+        scrollTo(page3Top).then((_) => (status = 3));
+        page3.style.display = 'flex';
+      } else {
+        scrollTo(page1Top).then((_) => (status = 1));
+      }
+    } else if (status === 3) {
+      if (isdown) {
+        scrollTo(page4Top).then((_) => (status = 4));
+        page4.style.display = 'flex';
+      } else {
+        scrollTo(page2Top).then((_) => (status = 2));
+      }
+    } else if (status === 4) {
+      if (isdown) {
+        scrollTo(page5Top).then((_) => (status = 5));
+        page5.style.display = 'flex';
+      } else {
+        scrollTo(page3Top).then((_) => (status = 3));
+      }
+    } else if (status === 5) {
+      if (isdown) {
+        scrollTo(page6Top).then((_) => (status = 6));
+        page6.style.display = 'flex';
+      } else {
+        scrollTo(page4Top).then((_) => (status = 4));
+      }
+    } else if (status === 6) {
+      if (isdown) {
+        scrollTo(page7Top).then((_) => {
+          enableScroll();
+          status = 7;
+          if (e != null) {
+            let checkScroll = setInterval(() => {
+              if (window.scrollY < page7Top) {
+                clearInterval(checkScroll);
+                disableScroll();
+                scrollTo(page6Top).then((_) => {
+                  moving = true;
+                  status = 6;
+                });
+              }
+            }, 100);
+          }
+        });
+      } else {
+        scrollTo(page5Top).then((_) => (status = 5));
       }
     }
   }
 
-  function moveFromTo(from, to, func = () => null) {
+  function scrollTo(to, func = () => null) {
     return new Promise((resolve, reject) => {
       window.scrollTo({ top: to, behavior: 'smooth' });
       setTimeout(() => {
@@ -99,7 +132,7 @@
 
   function preventDefaultForScrollKeys(e) {
     if (keys[e.keyCode]) {
-      preventDefault(e);
+      e.preventDefault();
       return false;
     }
   }
@@ -117,23 +150,26 @@
     );
   } catch (e) {}
 
-  var wheelOpt = supportsPassive ? { passive: false } : false;
+  var wheelOpt = supportsPassive ? { passive: false, cancelable: true } : false;
   var wheelEvent =
     'onwheel' in document.createElement('div') ? 'wheel' : 'mousewheel';
 
+  function touchBlock(e) {
+    e.preventDefault();
+  }
+
   // call this to Disable
   function disableScroll() {
-    window.addEventListener('DOMMouseScroll', preventDefault, false); // older FF
-    window.addEventListener(wheelEvent, preventDefault, wheelOpt); // modern desktop
-    window.addEventListener('touchmove', preventDefault, wheelOpt); // mobile
+    window.addEventListener('DOMMouseScroll', preventDefaultCom, false); // older FF
+    window.addEventListener(wheelEvent, preventDefaultCom, wheelOpt); // modern desktop
+    window.addEventListener('touchmove', touchBlock, wheelOpt); // mobile
     window.addEventListener('keydown', preventDefaultForScrollKeys, false);
   }
 
-  // call this to Enable
   function enableScroll() {
-    window.removeEventListener('DOMMouseScroll', preventDefault, false);
-    window.removeEventListener(wheelEvent, preventDefault, wheelOpt);
-    window.removeEventListener('touchmove', preventDefault, wheelOpt);
+    window.removeEventListener('DOMMouseScroll', preventDefaultCom, false); // older FF
+    window.removeEventListener(wheelEvent, preventDefaultCom, wheelOpt); // modern desktop
+    window.removeEventListener('touchmove', touchBlock, wheelOpt); // mobile
     window.removeEventListener('keydown', preventDefaultForScrollKeys, false);
   }
 })();
