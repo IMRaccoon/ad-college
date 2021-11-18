@@ -1,82 +1,40 @@
-import styles from '../../styles/Main.module.css';
+/* eslint-disable @next/next/no-sync-scripts */
+/* eslint-disable @next/next/no-img-element */
+import styled from '../../styles/Main.module.css';
 
 export default function Main() {
   return (
-    <main className={styles.container}>
-      <div className={styles.bgFirst}></div>
-      <div className={styles.bgSecond}>
-        {/* <Image
-          width="1920"
-          height="1080"
-          layout="responsive"
-          src="/main/main_first_1.png"
-          alt="main first first"
-        ></Image>
-        <Image
-          width="1920"
-          height="1080"
-          layout="responsive"
-          src="/main/main_first_2.png"
-          alt="main first second"
-        ></Image>
-        <Image
-          width="1920"
-          height="1080"
-          layout="responsive"
-          src="/main/main_first_3.png"
-          alt="main first third"
-        ></Image>
-        <Image
-          width="1920"
-          height="1080"
-          layout="responsive"
-          src="/main/main_second_1.png"
-          alt="main second first"
-        ></Image>
-        <Image
-          width="1920"
-          height="1080"
-          layout="responsive"
-          src="/main/main_second_2.png"
-          alt="main second second"
-        ></Image> */}
-      </div>
-      <div className={styles.bgThird}></div>
-      {/* <Image
-        src="/main/main_2.png"
-        layout="responsive"
-        width="1920"
-        height="3481"
-        alt="first main"
-      ></Image>
-      <Image
-        src="/main/main_3.png"
-        layout="responsive"
-        width="1920"
-        height="2082"
-        alt="first main"
-      ></Image>
-      <Image
-        src="/main/main_4.png"
-        layout="responsive"
-        width="1920"
-        height="2082"
-        alt="first main"
-      ></Image>
-      <Image
-        src="/main/main_5.png"
-        layout="responsive"
-        width="1920"
-        height="2082"
-        alt="first main"
-      ></Image>
-      <Image
-        src="/main/main_6.png"
-        layout="responsive"
-        width="1920"
-        height="2082"
-        alt="first main"
-      ></Image> */}
-    </main>
+    <>
+      <script
+        type="text/javascript"
+        src="https://ad-college.vercel.app/js/pageable.js"
+      />
+      <script
+        type="text/javascript"
+        src="https://ad-college.vercel.app/js/main.js"
+      />
+      <main className={styled.background}>
+        <div className={styled.container} id="container">
+          <div className={styled.intro} data-anchor="Page 1" />
+          <div className={styled.pageLayout} data-anchor="Page 2">
+            <div className={styled.firstText} id="first-text" />
+            <div className={styled.firstLetter} id="first-letter" />
+          </div>
+          <div className={styled.pageLayout} data-anchor="Page 3">
+            <div className={styled.secondText} id="second-text" />
+          </div>
+          <div className={styled.pageLayout} data-anchor="Page 4">
+            <div className={styled.thirdText} id="third-text" />
+          </div>
+          <div className={styled.pageLayout} data-anchor="Page 5">
+            <div className={styled.fourthText} id="fourth-text" />
+          </div>
+          <div className={styled.pageLayout} data-anchor="Page 6">
+            <div className={styled.fifthText} id="fifth-text" />
+          </div>
+          <div className={styled.category} id="category" data-anchor="Page 7" />
+        </div>
+      </main>
+    </>
   );
 }
