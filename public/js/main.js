@@ -150,7 +150,7 @@
     );
   } catch (e) {}
 
-  var wheelOpt = supportsPassive ? { passive: false, cancelable: true } : false;
+  var wheelOpt = supportsPassive ? { passive: false } : false;
   var wheelEvent =
     'onwheel' in document.createElement('div') ? 'wheel' : 'mousewheel';
 
