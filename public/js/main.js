@@ -2,9 +2,7 @@
   //   document.location.href = '/main';
   let pageable, lastTop;
   window.addEventListener('load', () => {
-    if (document.location.hash !== '') {
-      document.location.hash = '';
-    }
+    document.location.hash = 'page-1';
     pageable = pageAction();
   });
 
