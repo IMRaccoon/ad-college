@@ -1,77 +1,146 @@
 (function () {
-  //   document.location.href = '/main';
-  let pageable, lastTop;
+  let status = 1;
+  let moving = false;
+  let page1, page2, page3, page4, page5, page6;
+  let page1Top, page2Top, page3Top, page4Top, page5Top, page6Top, page7Top;
+
   window.addEventListener('load', () => {
-    document.location.hash = 'page-1';
-    pageable = pageAction();
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+      disableScroll();
+    }, 100);
+
+    page1 = document.getElementById('Page_1');
+    page2 = document.getElementById('Page_2');
+    page3 = document.getElementById('Page_3');
+    page4 = document.getElementById('Page_4');
+    page5 = document.getElementById('Page_5');
+    page6 = document.getElementById('Page_6');
+    page1Top = 0;
+    page2Top = window.innerHeight;
+    page3Top = window.innerHeight * 2;
+    page4Top = window.innerHeight * 3;
+    page5Top = window.innerHeight * 4;
+    page6Top = window.innerHeight * 5;
+    page7Top = window.innerHeight * 6;
   });
 
-  function pageAction() {
-    return new Pageable('#container', {
-      childSelector: '[data-anchor]', // CSS3 selector string for the pages
-      pips: false, // display the pips
-      animation: 700, // the duration in ms of the scroll animation
-      delay: 0, // the delay in ms before the scroll animation starts
-      throttle: 50, // the interval in ms that the resize callback is fired
-      orientation: 'vertical', // or horizontal
-      swipeThreshold: 50, // swipe / mouse drag distance (px) before firing the page change event
-      freeScroll: false, // allow manual scrolling when dragging instead of automatically moving to next page
-      navPrevEl: false, // define an element to use to scroll to the previous page (CSS3 selector string or Element reference)
-      navNextEl: false, // define an element to use to scroll to the next page (CSS3 selector string or Element reference)
-      infinite: false, // enable infinite scrolling (from 0.4.0)
-      slideshow: false,
-      events: {
-        wheel: true, // enable / disable mousewheel scrolling
-        mouse: true, // enable / disable mouse drag scrolling
-        touch: true, // enable / disable touch / swipe scrolling
-        keydown: true, // enable / disable keyboard navigation
-      },
-      easing: function (currentTime, startPos, endPos, interval) {
-        // the easing function used for the scroll animation
-        return (
-          -endPos * (currentTime /= interval) * (currentTime - 2) + startPos
-        );
-      },
-      onUpdate: function () {},
-      onBeforeStart: function () {
-        // do something before scrolling begins
-      },
-      onStart: function (turn) {
-        if (turn === 'page-2') {
-          document.getElementById('first-background').style.display = 'flex';
-        } else if (turn === 'page-3') {
-          document.getElementById('second-background').style.display = 'flex';
-        } else if (turn === 'page-4') {
-          document.getElementById('third-background').style.display = 'flex';
-        } else if (turn === 'page-5') {
-          document.getElementById('fourth-background').style.display = 'flex';
-        } else if (turn === 'page-6') {
-          document.getElementById('fifth-background').style.display = 'flex';
+  var keys = { 37: 1, 38: 1, 39: 1, 40: 1 };
+
+  function preventDefault(e) {
+    if (status === 7) {
+      let checkScroll = setInterval(() => {
+        if (window.scrollY < page7Top) {
+          clearInterval(checkScroll);
+          moving = true;
+          moveFromTo(page7Top, page6Top).then((_) => {
+            disableScroll();
+            status = 6;
+          });
         }
-        // do something when scrolling begins
-      },
-      onScroll: function () {
-        // do something during scroll
-      },
-      onFinish: function (data) {
-        if (data.index === 6) {
-          limitation(data);
+      }, 100);
+    } else {
+      e.preventDefault();
+      if (moving) return;
+      moving = true;
+      if (status === 1) {
+        if (e.deltaY > 0) {
+          moveFromTo(page1Top, page2Top).then((_) => (status = 2));
+          page2.style.display = 'flex';
         }
-      },
+      } else if (status === 2) {
+        if (e.deltaY > 0) {
+          moveFromTo(page2Top, page3Top).then((_) => (status = 3));
+          page3.style.display = 'flex';
+        } else if (e.deltaY < 0) {
+          moveFromTo(page2Top, page1Top).then((_) => (status = 1));
+        }
+      } else if (status === 3) {
+        if (e.deltaY > 0) {
+          moveFromTo(page3Top, page4Top).then((_) => (status = 4));
+          page4.style.display = 'flex';
+        } else if (e.deltaY < 0) {
+          moveFromTo(page3Top, page2Top).then((_) => (status = 2));
+        }
+      } else if (status === 4) {
+        if (e.deltaY > 0) {
+          moveFromTo(page4Top, page5Top).then((_) => (status = 5));
+          page5.style.display = 'flex';
+        } else if (e.deltaY < 0) {
+          moveFromTo(page4Top, page3Top).then((_) => (status = 3));
+        }
+      } else if (status === 5) {
+        if (e.deltaY > 0) {
+          moveFromTo(page5Top, page6Top).then((_) => (status = 6));
+          page6.style.display = 'flex';
+        } else if (e.deltaY < 0) {
+          moveFromTo(page5Top, page4Top).then((_) => (status = 4));
+        }
+      } else if (status === 6) {
+        if (e.deltaY > 0) {
+          moveFromTo(page6Top, page7Top).then((_) => (status = 7));
+        } else if (e.deltaY < 0) {
+          moveFromTo(page6Top, page5Top).then((_) => (status = 5));
+        }
+      }
+    }
+  }
+
+  function moveFromTo(from, to, func = () => null) {
+    return new Promise((resolve, reject) => {
+      window.scrollTo({ top: to, behavior: 'smooth' });
+      setTimeout(() => {
+        moving = false;
+        func();
+        resolve();
+      }, 1000);
     });
   }
 
-  function limitation(data) {
-    lastTop = data.scrolled;
-    pageable.freeScroll = true;
-    pageable.destroy();
-    window.addEventListener('scroll', scrollAction);
-  }
-
-  function scrollAction() {
-    if (window.scrollY < lastTop) {
-      pageable.init();
-      window.removeEventListener('scroll', scrollAction);
+  function preventDefaultForScrollKeys(e) {
+    if (keys[e.keyCode]) {
+      preventDefault(e);
+      return false;
     }
   }
+
+  var supportsPassive = false;
+  try {
+    window.addEventListener(
+      'test',
+      null,
+      Object.defineProperty({}, 'passive', {
+        get: function () {
+          supportsPassive = true;
+        },
+      }),
+    );
+  } catch (e) {}
+
+  var wheelOpt = supportsPassive ? { passive: false } : false;
+  var wheelEvent =
+    'onwheel' in document.createElement('div') ? 'wheel' : 'mousewheel';
+
+  // call this to Disable
+  function disableScroll() {
+    window.addEventListener('DOMMouseScroll', preventDefault, false); // older FF
+    window.addEventListener(wheelEvent, preventDefault, wheelOpt); // modern desktop
+    window.addEventListener('touchmove', preventDefault, wheelOpt); // mobile
+    window.addEventListener('keydown', preventDefaultForScrollKeys, false);
+  }
+
+  // call this to Enable
+  function enableScroll() {
+    window.removeEventListener('DOMMouseScroll', preventDefault, false);
+    window.removeEventListener(wheelEvent, preventDefault, wheelOpt);
+    window.removeEventListener('touchmove', preventDefault, wheelOpt);
+    window.removeEventListener('keydown', preventDefaultForScrollKeys, false);
+  }
 })();
+
+{
+  /* <script
+      type="text/javascript"
+      src="https://ad-college.vercel.app/js/main.js"
+    ></script> */
+}

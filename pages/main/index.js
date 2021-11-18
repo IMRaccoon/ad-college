@@ -10,42 +10,43 @@ export default function Main() {
         type="text/javascript"
         src="https://ad-college.vercel.app/js/pageable.js"
       />
-      <script
-        type="text/javascript"
-        src="https://ad-college.vercel.app/js/main.js"
-      />
-      <main className={styled.background}>
-        <div className={styled.container} id="container">
-          <div className={styled.intro} data-anchor="Page 1" />
-          <div className={styled.pageLayout} data-anchor="Page 2">
-            <div className={styled.snow} id="first-background">
-              <div className={styled.firstText} id="first-text" />
-              <div className={styled.firstLetter} id="first-letter" />
+      <script type="text/javascript" src="/js/main.js" />
+      <div className={styled.background}>
+        <div className={styled.container}>
+          <div id="Page_1">
+            <div className={styled.intro}></div>
+          </div>
+          <div className={styled.pageLayout}>
+            <div className={styled.firstbackground} id="Page_2">
+              <div className={styled.firsttext}></div>
+              <div className={styled.firstletter}></div>
             </div>
           </div>
-          <div className={styled.pageLayout} data-anchor="Page 3">
-            <div className={styled.snow} id="second-background">
-              <div className={styled.secondText} id="second-text" />
+          <div className={styled.pageLayout}>
+            <div className={styled.secondbackground} id="Page_3">
+              <div className={styled.secondtext}></div>
             </div>
           </div>
-          <div className={styled.pageLayout} data-anchor="Page 4">
-            <div className={styled.snow} id="third-background">
-              <div className={styled.thirdText} id="third-text" />
+          <div className={styled.pageLayout}>
+            <div className={styled.thirdbackground} id="Page_4">
+              <div className={styled.thirdtext}></div>
             </div>
           </div>
-          <div className={styled.pageLayout} data-anchor="Page 5">
-            <div className={styled.snow} id="fourth-background">
-              <div className={styled.fourthText} id="fourth-text" />
+          <div className={styled.pageLayout}>
+            <div className={styled.fourthbackground} id="Page_5">
+              <div className={styled.fourthtext}></div>
             </div>
           </div>
-          <div className={styled.pageLayout} data-anchor="Page 6">
-            <div className={styled.snow} id="fifth-background">
-              <div className={styled.fifthText} id="fifth-text" />
+          <div className={styled.pageLayout}>
+            <div className={styled.fifthbackground} id="Page_6">
+              <div className={styled.fifthtext}></div>
             </div>
           </div>
-          <div className={styled.category} id="category" data-anchor="Page 7" />
+          <div className={styled.sixthcategory}>
+            <div data-anchor="Page 7"></div>
+          </div>
         </div>
-      </main>
+      </div>
     </>
   );
 }
