@@ -16,6 +16,10 @@ body {
   display: none;
 }
 
+:root {
+  --app-height: 100%;
+}
+
 body {
   scroll-behavior: smooth;
   -ms-overflow-style: none;
