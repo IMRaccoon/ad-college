@@ -1,25 +1,19 @@
 (function () {
-  var m_status = 1;
-  var m_throttling = false;
-  var m_setElement = {};
-  var m_prevMobile, m_nextMobile;
-  var m_setTop = {
-    page1: 0,
-    page2: window.innerHeight,
-    page3: window.innerHeight * 2,
-    page4: window.innerHeight * 3,
-    page5: window.innerHeight * 4,
-    page6: window.innerHeight * 5,
-    page7: window.innerHeight * 6,
-  };
+  let m_status = 1;
+  let m_throttling = false;
+  let m_setElement = {};
+  let m_setTop = {};
+  let m_prevMobile, m_nextMobile;
+  let vh = 0;
+
   const m_appHeight = () => {
-    var vh = window.innerHeight * 0.01;
+    vh = window.innerHeight * 0.01;
     document.documentElement.style.setProperty('--vh', `${vh}px`);
   };
 
   window.addEventListener('load', () => {
     m_appHeight();
-    if (window.scrollY < window.innerHeight * 6) {
+    if (window.scrollY < window.innerHeight) {
       setTimeout(() => {
         window.scrollTo(0, 0);
         disableScrollMobile();
@@ -37,6 +31,15 @@
       page5: document.getElementById('Page_5'),
       page6: document.getElementById('Page_6'),
     };
+
+    m_setTop = {
+      page1: 0,
+      page2: vh * 100,
+      page3: vh * 200,
+      page4: vh * 300,
+      page5: vh * 400,
+      page6: vh * 500,
+    };
   });
 
   function preventDefaultForScrollKeysMobile(e) {
@@ -46,7 +49,7 @@
     }
   }
 
-  var m_supportsPassive = false;
+  let m_supportsPassive = false;
   try {
     window.addEventListener(
       'test',
@@ -71,17 +74,20 @@
   function pageMoveMobile(isdown) {
     if (isdown) {
       m_status += 1;
-      if (m_status !== 7)
+      if (m_status !== 7) {
         m_setElement['page' + m_status].style.display = 'flex';
-      setTimeout(() => {
-        window.scrollTo({
-          top: m_setTop['page' + m_status],
-          behavior: 'smooth',
-        });
-      }, 0);
-      setTimeout(() => {
-        m_throttling = false;
-      }, 2000);
+        setTimeout(() => {
+          window.scrollTo({
+            top: m_setTop['page' + m_status],
+            behavior: 'smooth',
+          });
+        }, 0);
+        setTimeout(() => {
+          m_throttling = false;
+        }, 2000);
+      } else {
+        parent.endAction();
+      }
     } else {
       if (m_status === 1) {
         m_throttling = false;
@@ -106,10 +112,10 @@
     e.preventDefault();
   }
 
-  var m_wheelOpt = m_supportsPassive
+  let m_wheelOpt = m_supportsPassive
     ? { passive: false, cancelable: true }
     : false;
-  var m_wheelEvent =
+  let m_wheelEvent =
     'onwheel' in document.createElement('div') ? 'wheel' : 'mousewheel';
   // call this to Disable
   function disableScrollMobile() {
