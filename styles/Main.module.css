@@ -1,7 +1,7 @@
 .background {
   width: 100vw;
   background: url('https://ad-college.vercel.app/main/main_background.png');
-  background-size: 100% 100%;
+  background-size: 100vw calc(var(--vh, 1vh) * 100);
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;

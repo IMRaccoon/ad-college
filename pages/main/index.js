@@ -12,26 +12,24 @@ export default function Main() {
       ></script>
       <script type="text/javascript" src="/js/main.js" />
       <div className={styled.background}>
-        <div className={styled.pageLayout}>
-          <div className={styled.intro} id="Page_1"></div>
-          <div className={styled.firstbackground} id="Page_2">
-            <div className={styled.firsttext}></div>
-            <div className={styled.firstletter}></div>
-          </div>
-          <div className={styled.secondbackground} id="Page_3">
-            <div className={styled.secondtext}></div>
-          </div>
-          <div className={styled.thirdbackground} id="Page_4">
-            <div className={styled.thirdtext}></div>
-          </div>
-          <div className={styled.fourthbackground} id="Page_5">
-            <div className={styled.fourthtext}></div>
-          </div>
-          <div className={styled.fifthbackground} id="Page_6">
-            <div className={styled.fifthtext}></div>
-          </div>
-          <div className={styled.sixthcategory}></div>
+        <div className={styled.intro} id="Page_1"></div>
+        <div className={styled.firstbackground} id="Page_2">
+          <div className={styled.firsttext}></div>
+          <div className={styled.firstletter}></div>
         </div>
+        <div className={styled.secondbackground} id="Page_3">
+          <div className={styled.secondtext}></div>
+        </div>
+        <div className={styled.thirdbackground} id="Page_4">
+          <div className={styled.thirdtext}></div>
+        </div>
+        <div className={styled.fourthbackground} id="Page_5">
+          <div className={styled.fourthtext}></div>
+        </div>
+        <div className={styled.fifthbackground} id="Page_6">
+          <div className={styled.fifthtext}></div>
+        </div>
+        <div className={styled.sixthcategory}></div>
       </div>
     </>
   );
