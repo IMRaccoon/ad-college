@@ -1,5 +1,6 @@
 .background {
   width: 100vw;
+  height: calc(var(--vh, 1vh) * 600vw);
   background: url('https://ad-college.vercel.app/main/main_background.png');
   background-size: 100% 100%;
   background-position: center;
@@ -132,8 +133,8 @@
 .firsttext {
   max-width: 1200px;
   max-height: 92px;
-  width: 80vw;
-  height: 6vw;
+  width: 70vw;
+  height: 5.35vw;
   margin-bottom: 5vh;
   background: url('https://ad-college.vercel.app/main/main_first_text.png');
   background-size: 100% 100%;
@@ -149,8 +150,8 @@
 .firstletter {
   max-width: 1027px;
   max-height: 584px;
-  width: 70vw;
-  height: 40vw;
+  width: 60vw;
+  height: 35vw;
   background: url('https://ad-college.vercel.app/main/main_first_letter.png');
   background-size: 100% 100%;
   background-position: center;
@@ -165,9 +166,9 @@
 .secondtext {
   max-width: 845px;
   max-height: 95px;
-  width: 60vw;
-  height: 6.75vw;
-  margin-bottom: 3.4vw;
+  width: 50vw;
+  height: 5.6vw;
+  margin-bottom: 2vw;
   background: url('https://ad-college.vercel.app/main/main_second_text.png');
   background-size: 100% 100%;
   background-position: center;
@@ -182,9 +183,9 @@
 .thirdtext {
   max-width: 943px;
   max-height: 152px;
-  width: 65vw;
-  height: 10.6vw;
-  margin-bottom: 5.3vw;
+  width: 55vw;
+  height: 8.85vw;
+  margin-bottom: 4vw;
   background: url('https://ad-college.vercel.app/main/main_third_text.png');
   background-size: 100% 100%;
   background-position: center;
@@ -199,10 +200,10 @@
 .fourthtext {
   max-width: 715px;
   max-height: 610px;
-  width: 55vw;
-  height: 45vw;
+  width: 45vw;
+  height: 36.5vw;
   z-index: 1;
-  margin-bottom: 5.3vw;
+  margin-bottom: 5vw;
   background: url('https://ad-college.vercel.app/main/main_fourth_text.png');
   background-size: 100% 100%;
   background-position: center;
@@ -217,9 +218,9 @@
 .fifthtext {
   max-width: 578px;
   max-height: 94px;
-  width: 45vw;
-  height: 7.3vw;
-  margin-bottom: 5.3vw;
+  width: 40vw;
+  height: 6.5vw;
+  margin-bottom: 4vw;
   background: url('https://ad-college.vercel.app/main/main_fifth_text.png');
   background-size: 100% 100%;
   background-position: center;

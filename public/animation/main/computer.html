@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      (function () {
+        var status = 1;
+        var throttling = false;
+        var setElement = {};
+        var prevMobile, nextMobile;
+        var setTop = {
+          page1: 0,
+          page2: window.innerWidth * 1.08,
+          page3: window.innerWidth * 1.08 + window.innerHeight,
+          page4: window.innerWidth * 1.08 + window.innerHeight * 2,
+          page5: window.innerWidth * 1.08 + window.innerHeight * 3,
+          page6: window.innerWidth * 1.08 + window.innerHeight * 4,
+          page7: window.innerWidth * 1.08 + window.innerHeight * 5,
+        };
+        const appHeight = () => {
+          var vh = window.innerHeight * 0.01;
+          document.documentElement.style.setProperty('--vh', `${vh}px`);
+        };
+
+        window.addEventListener('load', () => {
+          setElement = {
+            page1: document.getElementById('Main_Page_1'),
+            page2: document.getElementById('Main_Page_2'),
+            page3: document.getElementById('Main_Page_3'),
+            page4: document.getElementById('Main_Page_4'),
+            page5: document.getElementById('Main_Page_5'),
+            page6: document.getElementById('Main_Page_6'),
+          };
+          appHeight();
+          if (window.scrollY < window.innerHeight * 6) {
+            setTimeout(() => {
+              window.scrollTo(0, 0);
+              disableScroll();
+            }, 100);
+          } else {
+            status = 7;
+            Object.values(setElement).forEach(
+              (p) => (p.style.display = 'flex'),
+            );
+            disableScroll();
+          }
+        });
+
+        function preventDefaultForScrollKeys(e) {
+          if (e.keyCode in [37, 38, 39, 40]) {
+            e.preventDefault();
+            return false;
+          }
+        }
+
+        var supportsPassive = false;
+        try {
+          window.addEventListener(
+            'test',
+            null,
+            Object.defineProperty({}, 'passive', {
+              get: function () {
+                supportsPassive = true;
+              },
+            }),
+          );
+        } catch (e) {}
+
+        function wheelBlock(e) {
+          if (e.deltaY > 0) {
+            if (
+              status < 6 &&
+              setTop['page' + (status + 1)] - window.innerHeight * 0.5 <
+                window.scrollY
+            ) {
+              status += 1;
+              setElement['page' + status].style.display = 'flex';
+            }
+          } else if (e.deltaY < 0) {
+            if (
+              status > 1 &&
+              setTop['page' + status] - window.innerHeight * 0.5 >
+                window.scrollY
+            ) {
+              status -= 1;
+              setElement['page' + status].style.display = 'flex';
+            }
+          }
+        }
+
+        function pageMove(isdown) {
+          if (isdown) {
+            status += 1;
+            if (status !== 7)
+              setElement['page' + status].style.display = 'flex';
+            window.scrollTo({
+              top: setTop['page' + status],
+              behavior: 'smooth',
+            });
+            setTimeout(() => {
+              throttling = false;
+            }, 2000);
+          } else {
+            if (status === 1) {
+              throttling = false;
+            } else {
+              status -= 1;
+              window.scrollTo({
+                top: setTop['page' + status],
+                behavior: 'smooth',
+              });
+              setTimeout(() => {
+                throttling = false;
+              }, 2000);
+            }
+          }
+        }
+
+        function touchBlock(e) {
+          if (status === 7 && window.scrollY >= setTop.page7) return;
+          e.preventDefault();
+        }
+
+        var wheelOpt = supportsPassive
+          ? { passive: false, cancelable: true }
+          : false;
+        var wheelEvent =
+          'onwheel' in document.createElement('div') ? 'wheel' : 'mousewheel';
+        // call this to Disable
+        function disableScroll() {
+          window.addEventListener('wheel', wheelBlock, wheelOpt); // modern desktop
+          window.addEventListener('mousewheel', wheelBlock, wheelOpt); // modern desktop
+          window.addEventListener('touchmove', touchBlock, wheelOpt); // mobile
+          window.addEventListener(
+            'keydown',
+            preventDefaultForScrollKeys,
+            false,
+          );
+
+          window.addEventListener('touchstart', (e) => {
+            prevMobile = e.touches[0].clientY;
+          });
+
+          window.addEventListener('touchend', (e) => {
+            if (throttling) return;
+            nextMobile = e.changedTouches[0].clientY;
+            if (prevMobile > nextMobile + 5) {
+              throttling = true;
+              pageMove(true);
+            } else if (prevMobile < nextMobile - 5) {
+              if (
+                status === 7 &&
+                window.scrollY + prevMobile - nextMobile > setTop.page7
+              )
+                return;
+              throttling = true;
+              pageMove(false);
+            }
+          });
+        }
+      })();
+    </script>
+    <style type="text/css">
+      .background {
+        width: 100vw;
+        height: calc(var(--vh, 1vh) * 500 + 108vw);
+        background: url('https://ad-college.vercel.app/main/main_background.png');
+        background-size: 100% 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+      }
+      .background:before {
+        content: '';
+        display: block;
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: calc(var(--vh, 1vh) * 100);
+        z-index: -10;
+        background: url('https://ad-college.vercel.app/main/main_background.png')
+          no-repeat center center;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+      }
+
+      .intro {
+        position: relative;
+        z-index: 1;
+        width: 100vw;
+        height: 108vw;
+        background: url('https://ad-college.vercel.app/main/main_intro.png');
+        background-size: 100% calc(100vw * 1.08);
+        background-position: top;
+        background-repeat: no-repeat;
+      }
+
+      .pageLayout {
+        width: 100vw;
+        height: calc(var(--vh, 1vh) * 100);
+      }
+
+      .firstbackground {
+        width: 100vw;
+        height: calc(var(--vh, 1vh) * 100);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: url('https://ad-college.vercel.app/main/main_snow.png');
+        background-size: 63vw 40vw;
+        background-repeat: no-repeat;
+        background-position: center center;
+        display: none;
+
+        animation: fadein 0.5s;
+        -moz-animation: fadein 0.5s; /* Firefox */
+        -webkit-animation: fadein 0.5s; /* Safari and Chrome */
+        -o-animation: fadein 0.5s; /* Opera */
+      }
+
+      .secondbackground {
+        width: 100vw;
+        height: calc(var(--vh, 1vh) * 100);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: url('https://ad-college.vercel.app/main/main_snow.png');
+        background-size: 63vw 40vw;
+        background-repeat: no-repeat;
+        background-position: center center;
+        display: none;
+
+        animation: fadein 0.5s;
+        -moz-animation: fadein 0.5s; /* Firefox */
+        -webkit-animation: fadein 0.5s; /* Safari and Chrome */
+        -o-animation: fadein 0.5s; /* Opera */
+      }
+
+      .thirdbackground {
+        width: 100vw;
+        height: calc(var(--vh, 1vh) * 100);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: url('https://ad-college.vercel.app/main/main_snow.png');
+        background-size: 63vw 40vw;
+        background-repeat: no-repeat;
+        background-position: center center;
+        display: none;
+
+        animation: fadein 0.5s;
+        -moz-animation: fadein 0.5s; /* Firefox */
+        -webkit-animation: fadein 0.5s; /* Safari and Chrome */
+        -o-animation: fadein 0.5s; /* Opera */
+      }
+
+      .fourthbackground {
+        width: 100vw;
+        height: calc(var(--vh, 1vh) * 100);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: url('https://ad-college.vercel.app/main/main_snow.png');
+        background-size: 63vw 40vw;
+        background-repeat: no-repeat;
+        background-position: center center;
+        display: none;
+
+        animation: fadein 0.5s;
+        -moz-animation: fadein 0.5s; /* Firefox */
+        -webkit-animation: fadein 0.5s; /* Safari and Chrome */
+        -o-animation: fadein 0.5s; /* Opera */
+      }
+
+      .fifthbackground {
+        width: 100vw;
+        height: calc(var(--vh, 1vh) * 100);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: url('https://ad-college.vercel.app/main/main_snow.png');
+        background-size: 63vw 40vw;
+        background-repeat: no-repeat;
+        background-position: center center;
+        display: none;
+
+        animation: fadein 0.5s;
+        -moz-animation: fadein 0.5s; /* Firefox */
+        -webkit-animation: fadein 0.5s; /* Safari and Chrome */
+        -o-animation: fadein 0.5s; /* Opera */
+      }
+
+      .firsttext {
+        max-width: 1200px;
+        max-height: 92px;
+        width: 70vw;
+        height: 5.35vw;
+        margin-bottom: 5vh;
+        background: url('https://ad-college.vercel.app/main/main_first_text.png');
+        background-size: 100% 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+
+        animation: fadein 1s;
+        -moz-animation: fadein 1s; /* Firefox */
+        -webkit-animation: fadein 1s; /* Safari and Chrome */
+        -o-animation: fadein 1s; /* Opera */
+      }
+
+      .firstletter {
+        max-width: 1027px;
+        max-height: 584px;
+        width: 60vw;
+        height: 35vw;
+        background: url('https://ad-college.vercel.app/main/main_first_letter.png');
+        background-size: 100% 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+
+        animation: fadein 0.8s;
+        -moz-animation: fadein 0.8s; /* Firefox */
+        -webkit-animation: fadein 0.8s; /* Safari and Chrome */
+        -o-animation: fadein 0.8s; /* Opera */
+      }
+
+      .secondtext {
+        max-width: 845px;
+        max-height: 95px;
+        width: 50vw;
+        height: 5.6vw;
+        margin-bottom: 2vw;
+        background: url('https://ad-college.vercel.app/main/main_second_text.png');
+        background-size: 100% 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+
+        animation: fadein 1s;
+        -moz-animation: fadein 1s; /* Firefox */
+        -webkit-animation: fadein 1s; /* Safari and Chrome */
+        -o-animation: fadein 1s; /* Opera */
+      }
+
+      .thirdtext {
+        max-width: 943px;
+        max-height: 152px;
+        width: 55vw;
+        height: 8.85vw;
+        margin-bottom: 4vw;
+        background: url('https://ad-college.vercel.app/main/main_third_text.png');
+        background-size: 100% 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+
+        animation: fadein 1s;
+        -moz-animation: fadein 1s; /* Firefox */
+        -webkit-animation: fadein 1s; /* Safari and Chrome */
+        -o-animation: fadein 1s; /* Opera */
+      }
+
+      .fourthtext {
+        max-width: 715px;
+        max-height: 610px;
+        width: 45vw;
+        height: 36.5vw;
+        z-index: 1;
+        margin-bottom: 5vw;
+        background: url('https://ad-college.vercel.app/main/main_fourth_text.png');
+        background-size: 100% 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+
+        animation: fadein 1s;
+        -moz-animation: fadein 1s; /* Firefox */
+        -webkit-animation: fadein 1s; /* Safari and Chrome */
+        -o-animation: fadein 1s; /* Opera */
+      }
+
+      .fifthtext {
+        max-width: 578px;
+        max-height: 94px;
+        width: 40vw;
+        height: 6.5vw;
+        margin-bottom: 4vw;
+        background: url('https://ad-college.vercel.app/main/main_fifth_text.png');
+        background-size: 100% 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+
+        animation: fadein 1s;
+        -moz-animation: fadein 1s; /* Firefox */
+        -webkit-animation: fadein 1s; /* Safari and Chrome */
+        -o-animation: fadein 1s; /* Opera */
+      }
+
+      .sixthcategory {
+        width: 100vw;
+        height: 445vw !important;
+        background: url('https://ad-college.vercel.app/main/main_category.png');
+        background-size: 100% 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+
+      @keyframes fadein {
+        0% {
+          transform: translateY(-3vh);
+          opacity: 0;
+        }
+        50% {
+          transform: translateY(-3vh);
+          opacity: 0;
+        }
+        100% {
+          transform: translateY(0px);
+          opacity: 1;
+        }
+      }
+      @-moz-keyframes fadein {
+        /* Firefox */
+        0% {
+          transform: translateY(-3vh);
+          opacity: 0;
+        }
+        50% {
+          transform: translateY(-3vh);
+          opacity: 0;
+        }
+        100% {
+          transform: translateY(0px);
+          opacity: 1;
+        }
+      }
+      @-webkit-keyframes fadein {
+        /* Safari and Chrome */
+        0% {
+          transform: translateY(-3vh);
+          opacity: 0;
+        }
+        50% {
+          transform: translateY(-3vh);
+          opacity: 0;
+        }
+        100% {
+          transform: translateY(0px);
+          opacity: 1;
+        }
+      }
+      @-o-keyframes fadein {
+        /* Opera */
+        0% {
+          transform: translateY(-3vh);
+          opacity: 0;
+        }
+        50% {
+          transform: translateY(-3vh);
+          opacity: 0;
+        }
+        100% {
+          transform: translateY(0px);
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="background" id="Main_Animation">
+      <div class="pageLayout">
+        <div class="intro" id="Main_Page_1"></div>
+        <div class="firstbackground" id="Main_Page_2">
+          <div class="firsttext"></div>
+          <div class="firstletter"></div>
+        </div>
+        <div class="secondbackground" id="Main_Page_3">
+          <div class="secondtext"></div>
+        </div>
+        <div class="thirdbackground" id="Main_Page_4">
+          <div class="thirdtext"></div>
+        </div>
+        <div class="fourthbackground" id="Main_Page_5">
+          <div class="fourthtext"></div>
+        </div>
+        <div class="fifthbackground" id="Main_Page_6">
+          <div class="fifthtext"></div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,32 +1,35 @@
-let status = 1;
-let throttling = false;
-let setElement = {};
-let prevMobile, nextMobile;
-let setTop = {
-  page1: 0,
-  page2: window.innerHeight,
-  page3: window.innerHeight * 2,
-  page4: window.innerHeight * 3,
-  page5: window.innerHeight * 4,
-  page6: window.innerHeight * 5,
-  page7: window.innerHeight * 6,
-};
 (function () {
-  const appHeight = () => {
-    let vh = window.innerHeight * 0.01;
+  var m_status = 1;
+  var m_throttling = false;
+  var m_setElement = {};
+  var m_prevMobile, m_nextMobile;
+  var m_setTop = {
+    page1: 0,
+    page2: window.innerHeight,
+    page3: window.innerHeight * 2,
+    page4: window.innerHeight * 3,
+    page5: window.innerHeight * 4,
+    page6: window.innerHeight * 5,
+    page7: window.innerHeight * 6,
+  };
+  const m_appHeight = () => {
+    var vh = window.innerHeight * 0.01;
     document.documentElement.style.setProperty('--vh', `${vh}px`);
   };
-  // window.addEventListener('resize', appHeight);
-  // appHeight();
 
   window.addEventListener('load', () => {
-    appHeight();
-    setTimeout(() => {
-      window.scrollTo(0, 0);
-      disableScroll();
-    }, 100);
+    m_appHeight();
+    if (window.scrollY < window.innerHeight * 6) {
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        disableScrollMobile();
+      }, 100);
+    } else {
+      m_status = 7;
+      disableScrollMobile();
+    }
 
-    setElement = {
+    m_setElement = {
       page1: document.getElementById('Page_1'),
       page2: document.getElementById('Page_2'),
       page3: document.getElementById('Page_3'),
@@ -36,98 +39,107 @@ let setTop = {
     };
   });
 
-  function preventDefaultForScrollKeys(e) {
+  function preventDefaultForScrollKeysMobile(e) {
     if (e.keyCode in [37, 38, 39, 40]) {
       e.preventDefault();
       return false;
     }
   }
 
-  let supportsPassive = false;
+  var m_supportsPassive = false;
   try {
     window.addEventListener(
       'test',
       null,
       Object.defineProperty({}, 'passive', {
         get: function () {
-          supportsPassive = true;
+          m_supportsPassive = true;
         },
       }),
     );
   } catch (e) {}
 
-  function wheelBlock(e) {
-    if (status === 7 && e.deltaY + window.scrollY >= setTop.page7) return;
+  function wheelBlockMobile(e) {
+    if (m_status === 7 && e.deltaY + window.scrollY >= m_setTop.page7) return;
     e.preventDefault();
-    if (!throttling) {
-      throttling = true;
-      pageMove(e.deltaY > 0);
+    if (!m_throttling) {
+      m_throttling = true;
+      pageMoveMobile(e.deltaY > 0);
     }
   }
 
-  function pageMove(isdown) {
+  function pageMoveMobile(isdown) {
     if (isdown) {
-      status += 1;
-      if (status !== 7) setElement['page' + status].style.display = 'flex';
+      m_status += 1;
+      if (m_status !== 7)
+        m_setElement['page' + m_status].style.display = 'flex';
       setTimeout(() => {
         window.scrollTo({
-          top: setTop['page' + status],
+          top: m_setTop['page' + m_status],
           behavior: 'smooth',
         });
       }, 0);
       setTimeout(() => {
-        throttling = false;
+        m_throttling = false;
       }, 2000);
     } else {
-      if (status === 1) {
-        throttling = false;
+      if (m_status === 1) {
+        m_throttling = false;
       } else {
-        status -= 1;
+        m_status -= 1;
+        m_setElement['page' + m_status].style.display = 'flex';
         setTimeout(() => {
           window.scrollTo({
-            top: setTop['page' + status],
+            top: m_setTop['page' + m_status],
             behavior: 'smooth',
           });
         }, 0);
         setTimeout(() => {
-          throttling = false;
+          m_throttling = false;
         }, 2000);
       }
     }
   }
 
-  function touchBlock(e) {
-    if (status === 7 && window.scrollY >= setTop.page7) return;
+  function touchBlockMobile(e) {
+    if (m_status === 7 && window.scrollY >= m_setTop.page7) return;
     e.preventDefault();
   }
 
-  let wheelOpt = supportsPassive ? { passive: false, cancelable: true } : false;
-  let wheelEvent =
+  var m_wheelOpt = m_supportsPassive
+    ? { passive: false, cancelable: true }
+    : false;
+  var m_wheelEvent =
     'onwheel' in document.createElement('div') ? 'wheel' : 'mousewheel';
   // call this to Disable
-  function disableScroll() {
-    window.addEventListener(wheelEvent, wheelBlock, wheelOpt); // modern desktop
-    window.addEventListener('touchmove', touchBlock, wheelOpt); // mobile
-    window.addEventListener('keydown', preventDefaultForScrollKeys, false);
+  function disableScrollMobile() {
+    window.addEventListener(m_wheelEvent, wheelBlockMobile, m_wheelOpt); // modern desktop
+    window.addEventListener('touchmove', touchBlockMobile, m_wheelOpt); // mobile
+    window.addEventListener(
+      'keydown',
+      preventDefaultForScrollKeysMobile,
+      false,
+    );
 
     window.addEventListener('touchstart', (e) => {
-      prevMobile = e.touches[0].clientY;
+      m_prevMobile = e.touches[0].clientY;
     });
 
     window.addEventListener('touchend', (e) => {
-      if (throttling) return;
-      nextMobile = e.changedTouches[0].clientY;
-      if (prevMobile > nextMobile + 5) {
-        throttling = true;
-        pageMove(true);
-      } else if (prevMobile < nextMobile - 5) {
+      if (m_throttling) return;
+      m_nextMobile = e.changedTouches[0].clientY;
+      if (m_prevMobile > m_nextMobile + 5) {
+        if (m_status === 7) return;
+        m_throttling = true;
+        pageMoveMobile(true);
+      } else if (m_prevMobile < m_nextMobile - 5) {
         if (
-          status === 7 &&
-          window.scrollY + prevMobile - nextMobile > setTop.page7
+          m_status === 7 &&
+          window.scrollY + m_prevMobile - m_nextMobile > m_setTop.page7
         )
           return;
-        throttling = true;
-        pageMove(false);
+        m_throttling = true;
+        pageMoveMobile(false);
       }
     });
   }

@@ -1,0 +1,464 @@
+<html>
+  <head>
+    <script
+      defer
+      src="https://unpkg.com/smoothscroll-polyfill@0.4.4/dist/smoothscroll.min.js"
+    ></script>
+
+    <script>
+      (function () {
+        var m_status = 1;
+        var m_throttling = false;
+        var m_setElement = {};
+        var m_prevMobile, m_nextMobile;
+        var m_setTop = {
+          page1: 0,
+          page2: window.innerHeight,
+          page3: window.innerHeight * 2,
+          page4: window.innerHeight * 3,
+          page5: window.innerHeight * 4,
+          page6: window.innerHeight * 5,
+          page7: window.innerHeight * 6,
+        };
+        const m_appHeight = () => {
+          var vh = window.innerHeight * 0.01;
+          document.documentElement.style.setProperty('--vh', `${vh}px`);
+        };
+
+        window.addEventListener('load', () => {
+          m_appHeight();
+          if (window.scrollY < window.innerHeight * 6) {
+            setTimeout(() => {
+              window.scrollTo(0, 0);
+              disableScrollMobile();
+            }, 100);
+          } else {
+            m_status = 7;
+            disableScrollMobile();
+          }
+
+          m_setElement = {
+            page1: document.getElementById('M_Main_Page_1'),
+            page2: document.getElementById('M_Main_Page_2'),
+            page3: document.getElementById('M_Main_Page_3'),
+            page4: document.getElementById('M_Main_Page_4'),
+            page5: document.getElementById('M_Main_Page_5'),
+            page6: document.getElementById('M_Main_Page_6'),
+          };
+        });
+
+        function preventDefaultForScrollKeysMobile(e) {
+          if (e.keyCode in [37, 38, 39, 40]) {
+            e.preventDefault();
+            return false;
+          }
+        }
+
+        var m_supportsPassive = false;
+        try {
+          window.addEventListener(
+            'test',
+            null,
+            Object.defineProperty({}, 'passive', {
+              get: function () {
+                m_supportsPassive = true;
+              },
+            }),
+          );
+        } catch (e) {}
+
+        function wheelBlockMobile(e) {
+          if (m_status === 7 && e.deltaY + window.scrollY >= m_setTop.page7)
+            return;
+          e.preventDefault();
+          if (!m_throttling) {
+            m_throttling = true;
+            pageMoveMobile(e.deltaY > 0);
+          }
+        }
+
+        function pageMoveMobile(isdown) {
+          if (isdown) {
+            m_status += 1;
+            if (m_status !== 7)
+              m_setElement['page' + m_status].style.display = 'flex';
+            setTimeout(() => {
+              window.scrollTo({
+                top: m_setTop['page' + m_status],
+                behavior: 'smooth',
+              });
+            }, 0);
+            setTimeout(() => {
+              m_throttling = false;
+            }, 2000);
+          } else {
+            if (m_status === 1) {
+              m_throttling = false;
+            } else {
+              m_status -= 1;
+              m_setElement['page' + m_status].style.display = 'flex';
+              setTimeout(() => {
+                window.scrollTo({
+                  top: m_setTop['page' + m_status],
+                  behavior: 'smooth',
+                });
+              }, 0);
+              setTimeout(() => {
+                m_throttling = false;
+              }, 2000);
+            }
+          }
+        }
+
+        function touchBlockMobile(e) {
+          if (m_status === 7 && window.scrollY >= m_setTop.page7) return;
+          e.preventDefault();
+        }
+
+        var m_wheelOpt = m_supportsPassive
+          ? { passive: false, cancelable: true }
+          : false;
+        var m_wheelEvent =
+          'onwheel' in document.createElement('div') ? 'wheel' : 'mousewheel';
+        // call this to Disable
+        function disableScrollMobile() {
+          window.addEventListener(m_wheelEvent, wheelBlockMobile, m_wheelOpt); // modern desktop
+          window.addEventListener('touchmove', touchBlockMobile, m_wheelOpt); // mobile
+          window.addEventListener(
+            'keydown',
+            preventDefaultForScrollKeysMobile,
+            false,
+          );
+
+          window.addEventListener('touchstart', (e) => {
+            m_prevMobile = e.touches[0].clientY;
+          });
+
+          window.addEventListener('touchend', (e) => {
+            if (m_throttling) return;
+            m_nextMobile = e.changedTouches[0].clientY;
+            if (m_prevMobile > m_nextMobile + 5) {
+              if (m_status === 7) return;
+              m_throttling = true;
+              pageMoveMobile(true);
+            } else if (m_prevMobile < m_nextMobile - 5) {
+              if (
+                m_status === 7 &&
+                window.scrollY + m_prevMobile - m_nextMobile > m_setTop.page7
+              )
+                return;
+              m_throttling = true;
+              pageMoveMobile(false);
+            }
+          });
+        }
+      })();
+    </script>
+    <style type="text/css">
+      .m-background {
+        width: 100vw;
+        height: calc(var(--vh, 1vh) * 600);
+      }
+
+      .m-intro {
+        position: relative;
+        z-index: 1;
+        width: 100vw;
+        height: calc(var(--vh, 1vh) * 100);
+        background: url('https://ad-college.vercel.app/main/main_intro.png');
+        background-size: 100% calc(100vw * 1.08);
+        background-position: top;
+        background-repeat: no-repeat;
+      }
+
+      .m-pageLayout {
+        width: 100vw;
+        height: calc(var(--vh, 1vh) * 100);
+      }
+
+      .m-firstbackground {
+        width: 100vw;
+        height: calc(var(--vh, 1vh) * 100);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: url('https://ad-college.vercel.app/main/main_snow.png');
+        background-size: 63vw 40vw;
+        background-repeat: no-repeat;
+        background-position: center center;
+        display: none;
+
+        animation: fadein 1s;
+        -moz-animation: fadein 1s; /* Firefox */
+        -webkit-animation: fadein 1s; /* Safari and Chrome */
+        -o-animation: fadein 1s; /* Opera */
+      }
+
+      .m-secondbackground {
+        width: 100vw;
+        height: calc(var(--vh, 1vh) * 100);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: url('https://ad-college.vercel.app/main/main_snow.png');
+        background-size: 63vw 40vw;
+        background-repeat: no-repeat;
+        background-position: center center;
+        display: none;
+
+        animation: fadein 1s;
+        -moz-animation: fadein 1s; /* Firefox */
+        -webkit-animation: fadein 1s; /* Safari and Chrome */
+        -o-animation: fadein 1s; /* Opera */
+      }
+
+      .m-thirdbackground {
+        width: 100vw;
+        height: calc(var(--vh, 1vh) * 100);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: url('https://ad-college.vercel.app/main/main_snow.png');
+        background-size: 63vw 40vw;
+        background-repeat: no-repeat;
+        background-position: center center;
+        display: none;
+
+        animation: fadein 1s;
+        -moz-animation: fadein 1s; /* Firefox */
+        -webkit-animation: fadein 1s; /* Safari and Chrome */
+        -o-animation: fadein 1s; /* Opera */
+      }
+
+      .m-fourthbackground {
+        width: 100vw;
+        height: calc(var(--vh, 1vh) * 100);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: url('https://ad-college.vercel.app/main/main_snow.png');
+        background-size: 63vw 40vw;
+        background-repeat: no-repeat;
+        background-position: center center;
+        display: none;
+
+        animation: fadein 1s;
+        -moz-animation: fadein 1s; /* Firefox */
+        -webkit-animation: fadein 1s; /* Safari and Chrome */
+        -o-animation: fadein 1s; /* Opera */
+      }
+
+      .m-fifthbackground {
+        width: 100vw;
+        height: calc(var(--vh, 1vh) * 100);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: url('https://ad-college.vercel.app/main/main_snow.png');
+        background-size: 63vw 40vw;
+        background-repeat: no-repeat;
+        background-position: center center;
+        display: none;
+
+        animation: fadein 1s;
+        -moz-animation: fadein 1s; /* Firefox */
+        -webkit-animation: fadein 1s; /* Safari and Chrome */
+        -o-animation: fadein 1s; /* Opera */
+      }
+
+      .m-firsttext {
+        max-width: 1200px;
+        max-height: 92px;
+        width: 70vw;
+        height: 5.35vw;
+        margin-bottom: 5vh;
+        background: url('https://ad-college.vercel.app/main/main_first_text.png');
+        background-size: 100% 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+
+        animation: fadein 2s;
+        -moz-animation: fadein 2s; /* Firefox */
+        -webkit-animation: fadein 2s; /* Safari and Chrome */
+        -o-animation: fadein 2s; /* Opera */
+      }
+
+      .m-firstletter {
+        max-width: 1027px;
+        max-height: 584px;
+        width: 60vw;
+        height: 35vw;
+        background: url('https://ad-college.vercel.app/main/main_first_letter.png');
+        background-size: 100% 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+
+        animation: fadein 1.5s;
+        -moz-animation: fadein 1.5s; /* Firefox */
+        -webkit-animation: fadein 1.5s; /* Safari and Chrome */
+        -o-animation: fadein 1.5s; /* Opera */
+      }
+
+      .m-secondtext {
+        max-width: 845px;
+        max-height: 95px;
+        width: 50vw;
+        height: 5.6vw;
+        margin-bottom: 2vw;
+        background: url('https://ad-college.vercel.app/main/main_second_text.png');
+        background-size: 100% 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+
+        animation: fadein 2s;
+        -moz-animation: fadein 2s; /* Firefox */
+        -webkit-animation: fadein 2s; /* Safari and Chrome */
+        -o-animation: fadein 2s; /* Opera */
+      }
+
+      .m-thirdtext {
+        max-width: 943px;
+        max-height: 152px;
+        width: 55vw;
+        height: 8.85vw;
+        margin-bottom: 4vw;
+        background: url('https://ad-college.vercel.app/main/main_third_text.png');
+        background-size: 100% 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+
+        animation: fadein 2s;
+        -moz-animation: fadein 2s; /* Firefox */
+        -webkit-animation: fadein 2s; /* Safari and Chrome */
+        -o-animation: fadein 2s; /* Opera */
+      }
+
+      .m-fourthtext {
+        max-width: 715px;
+        max-height: 610px;
+        width: 45vw;
+        height: 36.5vw;
+        z-index: 1;
+        margin-bottom: 5vw;
+        background: url('https://ad-college.vercel.app/main/main_fourth_text.png');
+        background-size: 100% 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+
+        animation: fadein 2s;
+        -moz-animation: fadein 2s; /* Firefox */
+        -webkit-animation: fadein 2s; /* Safari and Chrome */
+        -o-animation: fadein 2s; /* Opera */
+      }
+
+      .m-fifthtext {
+        max-width: 578px;
+        max-height: 94px;
+        width: 40vw;
+        height: 6.5vw;
+        margin-bottom: 4vw;
+        background: url('https://ad-college.vercel.app/main/main_fifth_text.png');
+        background-size: 100% 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+
+        animation: fadein 2s;
+        -moz-animation: fadein 2s; /* Firefox */
+        -webkit-animation: fadein 2s; /* Safari and Chrome */
+        -o-animation: fadein 2s; /* Opera */
+      }
+
+      .m-sixthcategory {
+        width: 100vw;
+        height: 445vw !important;
+        background: url('https://ad-college.vercel.app/main/main_category.png');
+        background-size: 100% 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+
+      @keyframes fadein {
+        0% {
+          transform: translateY(-3vh);
+          opacity: 0;
+        }
+        50% {
+          transform: translateY(-3vh);
+          opacity: 0;
+        }
+        100% {
+          transform: translateY(0px);
+          opacity: 1;
+        }
+      }
+      @-moz-keyframes fadein {
+        /* Firefox */
+        0% {
+          transform: translateY(-3vh);
+          opacity: 0;
+        }
+        50% {
+          transform: translateY(-3vh);
+          opacity: 0;
+        }
+        100% {
+          transform: translateY(0px);
+          opacity: 1;
+        }
+      }
+      @-webkit-keyframes fadein {
+        /* Safari and Chrome */
+        0% {
+          transform: translateY(-3vh);
+          opacity: 0;
+        }
+        50% {
+          transform: translateY(-3vh);
+          opacity: 0;
+        }
+        100% {
+          transform: translateY(0px);
+          opacity: 1;
+        }
+      }
+      @-o-keyframes fadein {
+        /* Opera */
+        0% {
+          transform: translateY(-3vh);
+          opacity: 0;
+        }
+        50% {
+          transform: translateY(-3vh);
+          opacity: 0;
+        }
+        100% {
+          transform: translateY(0px);
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="m-background">
+      <div class="m-pageLayout">
+        <div class="m-intro" id="M_Main_Page_1"></div>
+        <div class="m-firstbackground" id="M_Main_Page_2">
+          <div class="m-firsttext"></div>
+          <div class="m-firstletter"></div>
+        </div>
+        <div class="m-secondbackground" id="M_Main_Page_3">
+          <div class="m-secondtext"></div>
+        </div>
+        <div class="m-thirdbackground" id="M_Main_Page_4">
+          <div class="m-thirdtext"></div>
+        </div>
+        <div class="m-fourthbackground" id="M_Main_Page_5">
+          <div class="m-fourthtext"></div>
+        </div>
+        <div class="m-fifthbackground" id="M_Main_Page_6">
+          <div class="m-fifthtext"></div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
