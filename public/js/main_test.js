@@ -17,16 +17,21 @@
       6: document.getElementById('Page_6'),
     };
 
-    if (window.scrollY > 0) {
-      status = 6;
-
-      pages[1].style.display = 'none';
-      pages[6].style.display = 'flex';
-      pageMove(true);
-      enableScroll();
-    } else {
-      disableScroll();
-    }
+    window.addEventListener('message', (e) => {
+      if (e.data === 'restart') {
+        disableScroll();
+        status = 6;
+        pages[status].dataset.finish = '';
+      } else if (e.data === 'end') {
+        status = 6;
+        pages[1].style.display = 'none';
+        pages[6].style.display = 'flex';
+        pageMove(true);
+        enableScroll();
+      } else {
+        disableScroll();
+      }
+    });
   });
 
   const appHeight = () => {
@@ -83,14 +88,15 @@
   }
 
   function outsideCheck(e) {
-    if (e.deltaY < 0 && window.scrollY < window.innerHeight / 2) {
-      disableScroll();
-      status = 6;
-      pages[status].dataset.finish = '';
-      setTimeout(() => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }, 10);
-    }
+    e.preventDefault();
+    // if (e.deltaY < 0 && window.scrollY < window.innerHeight / 2) {
+    //   disableScroll();
+    //   status = 6;
+    //   pages[status].dataset.finish = '';
+    //   setTimeout(() => {
+    //     window.scrollTo({ top: 0, behavior: 'smooth' });
+    //   }, 10);
+    // }
   }
 
   let supportsPassive = false;
@@ -117,6 +123,6 @@
   function enableScroll() {
     window.removeEventListener(wheelEvent, wheelBlock, wheelOpt);
     window.addEventListener(wheelEvent, outsideCheck, wheelOpt);
-    parent.getRelease();
+    window.parent.postMessage('finish', '*');
   }
 })();
