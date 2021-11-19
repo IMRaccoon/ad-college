@@ -12,13 +12,11 @@ export default function Main() {
       ></script>
       <script type="text/javascript" src="/js/main.js" />
       <div className={styled.background}>
-        <div className={styled.container}>
-          <div className={styled.intro} id="Page_1"></div>
-          <div className={styled.pageLayout}>
-            <div className={styled.firstbackground} id="Page_2">
-              <div className={styled.firsttext}></div>
-              <div className={styled.firstletter}></div>
-            </div>
+        <div className={styled.intro} id="Page_1"></div>
+        <div className={styled.pageLayout}>
+          <div className={styled.firstbackground} id="Page_2">
+            <div className={styled.firsttext}></div>
+            <div className={styled.firstletter}></div>
           </div>
           <div className={styled.pageLayout}>
             <div className={styled.secondbackground} id="Page_3">
