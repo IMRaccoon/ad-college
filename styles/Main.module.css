@@ -6,7 +6,7 @@
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
-.background:before {
+/* .background:before {
   content: '';
   display: block;
   position: fixed;
@@ -21,7 +21,7 @@
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-}
+} */
 
 .intro {
   position: relative;
