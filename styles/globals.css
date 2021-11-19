@@ -2,10 +2,15 @@ html,
 body {
   padding: 0;
   margin: 0;
-  width: 100%;
-  height: 100%;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+
+  width: 100vw;
+  height: 100vh;
+
+  @media not all and (hover: hover) {
+    height: var(--app-height);
+  }
 }
 ::-webkit-scrollbar {
   display: none;

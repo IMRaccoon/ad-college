@@ -1,21 +1,28 @@
+let status = 1;
+let throttling = false;
+let setElement = {};
+let prevMobile, nextMobile;
+let setTop = {
+  page1: 0,
+  page2: window.innerHeight,
+  page3: window.innerHeight * 2,
+  page4: window.innerHeight * 3,
+  page5: window.innerHeight * 4,
+  page6: window.innerHeight * 5,
+  page7: window.innerHeight * 6,
+};
 (function () {
-  let status = 1;
-  let throttling = false;
-  let setElement = {};
-  let prevMobile, nextMobile;
-  let setTop = {
-    page1: 0,
-    page2: window.innerHeight,
-    page3: window.innerHeight * 2,
-    page4: window.innerHeight * 3,
-    page5: window.innerHeight * 4,
-    page6: window.innerHeight * 5,
-    page7: window.innerHeight * 6,
+  const appHeight = () => {
+    const doc = document.documentElement;
+    doc.style.setProperty('--app-height', `${window.innerHeight}px`);
   };
+  // window.addEventListener('resize', appHeight);
+  // appHeight();
 
   window.addEventListener('load', () => {
     setTimeout(() => {
       window.scrollTo(0, 0);
+      appHeight();
       disableScroll();
     }, 100);
 
@@ -52,7 +59,7 @@
   function wheelBlock(e) {
     if (status === 7 && e.deltaY + window.scrollY >= setTop.page7) return;
     e.preventDefault();
-    if (throttling) {
+    if (!throttling) {
       throttling = true;
       pageMove(e.deltaY > 0);
     }
@@ -123,10 +130,5 @@
         pageMove(false);
       }
     });
-  }
-
-  function enableScroll() {
-    window.removeEventListener(wheelEvent, wheelBlock, wheelOpt); // modern desktop
-    // window.removeEventListener('touchmove', touchBlock, wheelOpt); // mobile
   }
 })();
