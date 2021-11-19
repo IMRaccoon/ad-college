@@ -30,7 +30,6 @@ export default function Main() {
           <div className={styled.fifthbackground} id="Page_6">
             <div className={styled.fifthtext}></div>
           </div>
-          <div className={styled.sixthcategory}></div>
         </div>
       </div>
     </>
