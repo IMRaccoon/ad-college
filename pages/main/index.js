@@ -42,9 +42,7 @@ export default function Main() {
               <div className={styled.fifthtext}></div>
             </div>
           </div>
-          <div className={styled.sixthcategory}>
-            <div data-anchor="Page 7"></div>
-          </div>
+          <div className={styled.sixthcategory}></div>
         </div>
       </div>
     </>
