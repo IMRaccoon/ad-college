@@ -1,0 +1,368 @@
+.background {
+  width: 100vw;
+  height: 100vh;
+  background: url('https://ad-college.vercel.app/main/main_background.png');
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  position: absolute;
+}
+
+.intro {
+  position: relative;
+  z-index: 1;
+  width: 100vw;
+  height: calc(var(--vh, 1vh) * 100);
+  background: url('https://ad-college.vercel.app/main/main_intro.png');
+  background-size: 100% calc(100vw * 1.08);
+  background-position: top;
+  background-repeat: no-repeat;
+}
+.intro::before {
+  content: attr(data-finish);
+}
+.intro[data-finish='true'] {
+  animation: fadeout 0.5s forwards;
+  -moz-animation: fadeout 0.5s forwards; /* Firefox */
+  -webkit-animation: fadeout 0.5s forwards; /* Safari and Chrome */
+  -o-animation: fadeout 0.5s forwards; /* Opera */
+}
+
+.pageLayout {
+  width: 100vw;
+  height: calc(var(--vh, 1vh) * 100);
+}
+
+.firstbackground {
+  width: 100vw;
+  height: calc(var(--vh, 1vh) * 100);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: url('https://ad-college.vercel.app/main/main_snow.png');
+  background-size: 63vw 40vw;
+  background-repeat: no-repeat;
+  background-position: center center;
+  display: none;
+
+  animation: fadein 1s forwards;
+  -moz-animation: fadein 1s forwards; /* Firefox */
+  -webkit-animation: fadein 1s forwards; /* Safari and Chrome */
+  -o-animation: fadein 1s forwards; /* Opera */
+}
+.firstbackground::before {
+  content: attr(data-finish);
+}
+.firstbackground[data-finish='true'] {
+  animation: fadeout 0.5s forwards;
+  -moz-animation: fadeout 0.5s forwards; /* Firefox */
+  -webkit-animation: fadeout 0.5s forwards; /* Safari and Chrome */
+  -o-animation: fadeout 0.5s forwards; /* Opera */
+}
+
+.secondbackground {
+  width: 100vw;
+  height: calc(var(--vh, 1vh) * 100);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: url('https://ad-college.vercel.app/main/main_snow.png');
+  background-size: 63vw 40vw;
+  background-repeat: no-repeat;
+  background-position: center center;
+  display: none;
+
+  animation: fadein 1s forwards;
+  -moz-animation: fadein 1s forwards; /* Firefox */
+  -webkit-animation: fadein 1s forwards; /* Safari and Chrome */
+  -o-animation: fadein 1s forwards; /* Opera */
+}
+.secondbackground::before {
+  content: attr(data-finish);
+}
+.secondbackground[data-finish='true'] {
+  animation: fadeout 0.5s forwards;
+  -moz-animation: fadeout 0.5s forwards; /* Firefox */
+  -webkit-animation: fadeout 0.5s forwards; /* Safari and Chrome */
+  -o-animation: fadeout 0.5s forwards; /* Opera */
+}
+
+.thirdbackground {
+  width: 100vw;
+  height: calc(var(--vh, 1vh) * 100);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: url('https://ad-college.vercel.app/main/main_snow.png');
+  background-size: 63vw 40vw;
+  background-repeat: no-repeat;
+  background-position: center center;
+  display: none;
+
+  animation: fadein 1s forwards;
+  -moz-animation: fadein 1s forwards; /* Firefox */
+  -webkit-animation: fadein 1s forwards; /* Safari and Chrome */
+  -o-animation: fadein 1s forwards; /* Opera */
+}
+.thirdbackground::before {
+  content: attr(data-finish);
+}
+.thirdbackground[data-finish='true'] {
+  animation: fadeout 0.5s forwards;
+  -moz-animation: fadeout 0.5s forwards; /* Firefox */
+  -webkit-animation: fadeout 0.5s forwards; /* Safari and Chrome */
+  -o-animation: fadeout 0.5s forwards; /* Opera */
+}
+
+.fourthbackground {
+  width: 100vw;
+  height: calc(var(--vh, 1vh) * 100);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: url('https://ad-college.vercel.app/main/main_snow.png');
+  background-size: 63vw 40vw;
+  background-repeat: no-repeat;
+  background-position: center center;
+  display: none;
+
+  animation: fadein 1s forwards;
+  -moz-animation: fadein 1s forwards; /* Firefox */
+  -webkit-animation: fadein 1s forwards; /* Safari and Chrome */
+  -o-animation: fadein 1s forwards; /* Opera */
+}
+.fourthbackground::before {
+  content: attr(data-finish);
+}
+.fourthbackground[data-finish='true'] {
+  animation: fadeout 0.5s forwards;
+  -moz-animation: fadeout 0.5s forwards; /* Firefox */
+  -webkit-animation: fadeout 0.5s forwards; /* Safari and Chrome */
+  -o-animation: fadeout 0.5s forwards; /* Opera */
+}
+
+.fifthbackground {
+  width: 100vw;
+  height: calc(var(--vh, 1vh) * 100);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: url('https://ad-college.vercel.app/main/main_snow.png');
+  background-size: 63vw 40vw;
+  background-repeat: no-repeat;
+  background-position: center center;
+  display: none;
+
+  animation: fadein 1s forwards;
+  -moz-animation: fadein 1s forwards; /* Firefox */
+  -webkit-animation: fadein 1s forwards; /* Safari and Chrome */
+  -o-animation: fadein 1s forwards; /* Opera */
+}
+.fifthbackground::before {
+  content: attr(data-finish);
+}
+.fifthbackground[data-finish='true'] {
+  animation: fadeout 0.5s forwards;
+  -moz-animation: fadeout 0.5s forwards; /* Firefox */
+  -webkit-animation: fadeout 0.5s forwards; /* Safari and Chrome */
+  -o-animation: fadeout 0.5s forwards; /* Opera */
+}
+
+.firsttext {
+  max-width: 960px;
+  max-height: 74px;
+  width: 70vw;
+  height: 5.35vw;
+  margin-bottom: 5vh;
+  background: url('https://ad-college.vercel.app/main/main_first_text.png');
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  animation: fadein 2s;
+  -moz-animation: fadein 2s; /* Firefox */
+  -webkit-animation: fadein 2s; /* Safari and Chrome */
+  -o-animation: fadein 2s; /* Opera */
+}
+
+.firstletter {
+  max-width: 822px;
+  max-height: 467px;
+  width: 60vw;
+  height: 35vw;
+  background: url('https://ad-college.vercel.app/main/main_first_letter.png');
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  animation: fadein 1.5s;
+  -moz-animation: fadein 1.5s; /* Firefox */
+  -webkit-animation: fadein 1.5s; /* Safari and Chrome */
+  -o-animation: fadein 1.5s; /* Opera */
+}
+
+.secondtext {
+  max-width: 676px;
+  max-height: 76px;
+  width: 50vw;
+  height: 5.6vw;
+  margin-bottom: 2vw;
+  background: url('https://ad-college.vercel.app/main/main_second_text.png');
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  animation: fadein 2s;
+  -moz-animation: fadein 2s; /* Firefox */
+  -webkit-animation: fadein 2s; /* Safari and Chrome */
+  -o-animation: fadein 2s; /* Opera */
+}
+
+.thirdtext {
+  max-width: 755px;
+  max-height: 122px;
+  width: 55vw;
+  height: 8.85vw;
+  margin-bottom: 4vw;
+  background: url('https://ad-college.vercel.app/main/main_third_text.png');
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  animation: fadein 2s;
+  -moz-animation: fadein 2s; /* Firefox */
+  -webkit-animation: fadein 2s; /* Safari and Chrome */
+  -o-animation: fadein 2s; /* Opera */
+}
+
+.fourthtext {
+  max-width: 572px;
+  max-height: 488px;
+  width: 45vw;
+  height: 36.5vw;
+  z-index: 1;
+  margin-bottom: 5vw;
+  background: url('https://ad-college.vercel.app/main/main_fourth_text.png');
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  animation: fadein 2s;
+  -moz-animation: fadein 2s; /* Firefox */
+  -webkit-animation: fadein 2s; /* Safari and Chrome */
+  -o-animation: fadein 2s; /* Opera */
+}
+
+.fifthtext {
+  max-width: 462px;
+  max-height: 75px;
+  width: 40vw;
+  height: 6.5vw;
+  margin-bottom: 4vw;
+  background: url('https://ad-college.vercel.app/main/main_fifth_text.png');
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  animation: fadein 2s;
+  -moz-animation: fadein 2s; /* Firefox */
+  -webkit-animation: fadein 2s; /* Safari and Chrome */
+  -o-animation: fadein 2s; /* Opera */
+}
+
+@keyframes fadein {
+  0% {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+}
+@-moz-keyframes fadein {
+  /* Firefox */
+  0% {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+}
+@-webkit-keyframes fadein {
+  /* Safari and Chrome */
+  0% {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+}
+@-o-keyframes fadein {
+  /* Opera */
+  0% {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeout {
+  0% {
+    transform: translateY(0%);
+  }
+  100% {
+    transform: translateY(-100%);
+  }
+}
+@-moz-keyframes fadeout {
+  /* Firefox */
+  0% {
+    transform: translateY(0%);
+  }
+  100% {
+    transform: translateY(-100%);
+  }
+}
+@-webkit-keyframes fadeout {
+  /* Safari and Chrome */
+  0% {
+    transform: translateY(0%);
+  }
+  100% {
+    transform: translateY(-100%);
+  }
+}
+@-o-keyframes fadeout {
+  /* Opera */
+  0% {
+    transform: translateY(0%);
+  }
+  100% {
+    transform: translateY(-100%);
+  }
+}

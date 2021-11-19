@@ -21,9 +21,7 @@ body {
 }
 
 body {
-  scroll-behavior: smooth;
-  -ms-overflow-style: none;
-  overflow-y: auto;
+  overflow: auto;
 }
 
 a {
