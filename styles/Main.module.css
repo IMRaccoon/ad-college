@@ -6,6 +6,22 @@
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
+.background:before {
+  content: '';
+  display: block;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -10;
+  background: url('https://ad-college.vercel.app/main/main_background.png')
+    no-repeat center center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
 
 .intro {
   position: relative;
