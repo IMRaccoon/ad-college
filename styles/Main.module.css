@@ -1,12 +1,12 @@
 .background {
   width: 100vw;
   background: url('https://ad-college.vercel.app/main/main_background.png');
-  background-size: 100vw calc(var(--vh, 1vh) * 100);
+  background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
-/* .background:before {
+.background:before {
   content: '';
   display: block;
   position: fixed;
@@ -21,7 +21,7 @@
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-} */
+}
 
 .intro {
   position: relative;
