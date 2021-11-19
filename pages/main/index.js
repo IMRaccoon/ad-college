@@ -18,28 +18,28 @@ export default function Main() {
             <div className={styled.firsttext}></div>
             <div className={styled.firstletter}></div>
           </div>
-          <div className={styled.pageLayout}>
-            <div className={styled.secondbackground} id="Page_3">
-              <div className={styled.secondtext}></div>
-            </div>
-          </div>
-          <div className={styled.pageLayout}>
-            <div className={styled.thirdbackground} id="Page_4">
-              <div className={styled.thirdtext}></div>
-            </div>
-          </div>
-          <div className={styled.pageLayout}>
-            <div className={styled.fourthbackground} id="Page_5">
-              <div className={styled.fourthtext}></div>
-            </div>
-          </div>
-          <div className={styled.pageLayout}>
-            <div className={styled.fifthbackground} id="Page_6">
-              <div className={styled.fifthtext}></div>
-            </div>
-          </div>
-          <div className={styled.sixthcategory}></div>
         </div>
+        <div className={styled.pageLayout}>
+          <div className={styled.secondbackground} id="Page_3">
+            <div className={styled.secondtext}></div>
+          </div>
+        </div>
+        <div className={styled.pageLayout}>
+          <div className={styled.thirdbackground} id="Page_4">
+            <div className={styled.thirdtext}></div>
+          </div>
+        </div>
+        <div className={styled.pageLayout}>
+          <div className={styled.fourthbackground} id="Page_5">
+            <div className={styled.fourthtext}></div>
+          </div>
+        </div>
+        <div className={styled.pageLayout}>
+          <div className={styled.fifthbackground} id="Page_6">
+            <div className={styled.fifthtext}></div>
+          </div>
+        </div>
+        <div className={styled.sixthcategory}></div>
       </div>
     </>
   );
