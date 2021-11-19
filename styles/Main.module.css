@@ -13,6 +13,7 @@
   left: 0;
   top: 0;
   width: 100%;
+  height: calc(var(--vh, 1vh) * 100);
   z-index: -10;
   background: url('https://ad-college.vercel.app/main/main_background.png')
     no-repeat center center;
@@ -35,7 +36,7 @@
 
 .pageLayout {
   width: 100vw;
-  /* height: calc(var(--vh, 1vh) * 100); */
+  height: calc(var(--vh, 1vh) * 100);
 }
 
 .firstbackground {
