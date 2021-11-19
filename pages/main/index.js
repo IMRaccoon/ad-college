@@ -7,15 +7,13 @@ export default function Main() {
   return (
     <>
       <script
-        type="text/javascript"
-        src="https://ad-college.vercel.app/js/pageable.js"
-      />
+        defer
+        src="https://unpkg.com/smoothscroll-polyfill@0.4.4/dist/smoothscroll.min.js"
+      ></script>
       <script type="text/javascript" src="/js/main.js" />
       <div className={styled.background}>
         <div className={styled.container}>
-          <div id="Page_1">
-            <div className={styled.intro}></div>
-          </div>
+          <div className={styled.intro} id="Page_1"></div>
           <div className={styled.pageLayout}>
             <div className={styled.firstbackground} id="Page_2">
               <div className={styled.firsttext}></div>
