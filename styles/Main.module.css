@@ -11,7 +11,7 @@
   position: relative;
   z-index: 1;
   width: 100vw;
-  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
   background: url('https://ad-college.vercel.app/main/main_intro.png');
   background-size: 100% calc(100vw * 1.08);
   background-position: top;
@@ -20,12 +20,12 @@
 
 .pageLayout {
   width: 100vw;
-  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
 }
 
 .firstbackground {
   width: 100vw;
-  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -43,7 +43,7 @@
 
 .secondbackground {
   width: 100vw;
-  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -61,7 +61,7 @@
 
 .thirdbackground {
   width: 100vw;
-  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -79,7 +79,7 @@
 
 .fourthbackground {
   width: 100vw;
-  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -97,7 +97,7 @@
 
 .fifthbackground {
   width: 100vw;
-  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
   flex-direction: column;
   align-items: center;
   justify-content: center;
