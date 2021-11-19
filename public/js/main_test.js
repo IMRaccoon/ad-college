@@ -17,7 +17,7 @@
       6: document.getElementById('Page_6'),
     };
 
-    if (window.scrollY > 0) {
+    if (parent.scrollY > 0) {
       status = 6;
 
       pages[1].style.display = 'none';
@@ -83,7 +83,7 @@
   }
 
   function outsideCheck(e) {
-    if (e.deltaY < 0 && window.scrollY < window.innerHeight / 2) {
+    if (e.deltaY < 0 && parent.scrollY < window.innerHeight / 2) {
       disableScroll();
       status = 6;
       pages[status].dataset.finish = '';
